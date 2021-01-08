@@ -28,7 +28,7 @@ const SigninScreen = ({navigation}) => {
                     value={password}
                     onChangeText={(newPass) => {setPassword(newPass)}}
                 />
-                <TouchableOpacity onPress={() => {navigation.navigate('Search')}}>
+                <TouchableOpacity onPress={() => {navigation.navigate('homeFlow')}}>
                     <Text style={styles.buttonSignin}>SIGN IN</Text>
                 </TouchableOpacity>
                 
