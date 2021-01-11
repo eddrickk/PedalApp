@@ -70,7 +70,7 @@ const FreeCyclingStopScreen = ({navigation}) => {
                         </View>
                     </View>
                     <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
-                        <TouchableOpacity onPress={() => {navigation.navigate('FreeCyclingStop')}}>
+                        <TouchableOpacity onPress={() => {navigation.navigate('FreeCycling')}}>
                             <Text style={styles.buttonBreak}>Break</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => {navigation.navigate()}}>

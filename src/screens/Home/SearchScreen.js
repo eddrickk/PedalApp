@@ -4,19 +4,16 @@ import { SafeAreaView } from 'react-navigation'
 import { Ionicons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
 import {Dimensions} from 'react-native'
-const win = Dimensions.get('window');
+
 
 
 const SearchScreen = ({navigation}) => {
     const[name, setName] = useState('')
+    const win = Dimensions.get('window');
+    const ratio = win.width/594
     return (
         <SafeAreaView forceInset={{top:'always'}} style={styles.container}>
-            <ScrollView
-                style={styles.scrollView}
-                showsVerticalScrollIndicator={false}
-                keyboardShouldPersistTaps="handled"
-            >
-
+            <View style={{backgroundColor: '#FBF199'}}>
                 <View style={styles.header}>
                     <Text style={styles.headerText}>Home</Text>
                     <Image style={styles.icon} source={require('../../../assets/icon.png')} />
@@ -34,16 +31,22 @@ const SearchScreen = ({navigation}) => {
                         <Text style={styles.buttonFreeCycling}>FreeCycling</Text>
                     </TouchableOpacity>
                 </View>
-                <TextInput 
-                            style={styles.inputStyle}
-                            autoCapitalize="none"
-                            autoCorrect={false}
-                            placeholder='Name'
-                            value={name}
-                            onChangeText={(newName) => {setName(newName)}}
-                />
-                <Image style={styles.map} source={require('../../../assets/gambar.jpg')} />
-            </ScrollView>
+                <ScrollView
+                style={styles.scrollView}
+                showsVerticalScrollIndicator={false}
+                keyboardShouldPersistTaps="handled"
+                >
+                    <TextInput 
+                        style={styles.inputStyle}
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        placeholder='Search'
+                        value={name}
+                        onChangeText={(newName) => {setName(newName)}}
+                    />
+                    <Image style={{width: win.width, height: 720*ratio}} source={require('../../../assets/FreeCyclingMap.png')} />
+                </ScrollView>
+            </View>
         </SafeAreaView>
     )
 }
@@ -60,6 +63,8 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
+    },
+    scrollView: {
         backgroundColor:'#FBF199'
     },
     header: {
@@ -110,12 +115,12 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         elevation: 5
     },
-    map:{
+    /* map:{
         alignSelf:'center',
         width:win.width,
         flex:1,
-        height: 600
-    }
+        height: 594*ratio
+    } */
 })
 
 export default SearchScreen

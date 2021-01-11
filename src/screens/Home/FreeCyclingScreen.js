@@ -13,11 +13,7 @@ const FreeCyclingScreen = ({ navigation }) => {
     const [avg, setAvg] = useState('0')
     return (
         <SafeAreaView forceInset={{top:'always'}} style={styles.container}>
-            <ScrollView
-                style={styles.scrollView}
-                showsVerticalScrollIndicator={false}
-                keyboardShouldPersistTaps="handled"
-            >
+            
                 <View style={styles.header}>
                     <Text style={styles.headerText}>Home</Text>
                     <Image style={styles.icon} source={require('../../../assets/icon.png')} />
@@ -35,23 +31,37 @@ const FreeCyclingScreen = ({ navigation }) => {
                         <Text style={styles.buttonFreeCycling}>FreeCycling</Text>
                     </TouchableOpacity>
                 </View>
-                <View>
-                    <ImageBackground
-                        source={require('../../../assets/cycling.png')}
-                        style={styles.cyclingBackground} imageStyle={{ opacity: 0.4 }}
-                    >
-                        <TouchableOpacity onPress={() => { navigation.navigate('FreeCyclingStart') }}>
-                            <View style={styles.startBorder} >
-                                <Image style={styles.startIcon} source={require('../../../assets/play.png')} />
-                            </View>
-                        </TouchableOpacity> 
-                        <Text style={styles.startText}>Start Free Cycling</Text>
-                    </ImageBackground>
-                </View>
-                <View style={styles.greyBackground} >
-                    <Text style={styles.resultText} > Time               {hours}:{minutes}:{hours}</Text>
-                    <Text style={styles.resultText} > Distance        {distance}m</Text>
-                    <Text style={styles.resultText} > Avg. Speed   {avg}m/s</Text>
+                <ScrollView
+                    style={styles.scrollView}
+                    showsVerticalScrollIndicator={false}
+                    keyboardShouldPersistTaps="handled"
+                >
+                <ImageBackground
+                    source={require('../../../assets/cycling.png')}
+                    style={styles.cyclingBackground} imageStyle={{ opacity: 0.4 }}
+                >
+                    <TouchableOpacity onPress={() => { navigation.navigate('FreeCyclingStart') }}>
+                        <View style={styles.startBorder} >
+                            <Image style={styles.startIcon} source={require('../../../assets/play.png')} />
+                        </View>
+                    </TouchableOpacity> 
+                    <Text style={styles.startText}>Start Free Cycling</Text>
+                </ImageBackground>
+                <View style={styles.detail}>
+                    <View style={{alignSelf: 'center', width: win.width-140}}>
+                        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                            <Text style={styles.textStyle}>Time</Text>
+                            <Text style={styles.textStyle}>00 : 00 : 02</Text>
+                        </View>
+                        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                            <Text style={styles.textStyle}>Distance</Text>
+                            <Text style={styles.textStyle}>1.0 m</Text>
+                        </View>
+                        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                            <Text style={styles.textStyle}>Avg.Speed</Text>
+                            <Text style={styles.textStyle}>0.5 m/s</Text>
+                        </View>
+                    </View>
                 </View>
             </ScrollView>
         </SafeAreaView>
@@ -69,6 +79,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#FF8E15',
         justifyContent: 'space-between',
     },
+    scrollView: {
+        backgroundColor:'#F3EFE4'
+    },
     headerText: {
         fontSize: 20,
         color: '#F3EFE4',
@@ -77,6 +90,15 @@ const styles = StyleSheet.create({
     icon: {
         height: 50,
         width: 50,
+    },
+    textStyle: {
+        fontSize: 24,
+    },
+    detail: {
+        backgroundColor: '#F3EFE4',
+        borderTopWidth: 3,
+        borderTopColor: '#FF8E15',
+        paddingVertical: 15
     },
     buttonFreeCycling: {
         color: '#086788',
@@ -116,8 +138,8 @@ const styles = StyleSheet.create({
     cyclingBackground: {
         alignSelf: 'center',
         width: win.width,
-        flex: 1,
         height: 375,
+        alignItems: 'center'
     },
     startText: {
         fontWeight: 'bold',
@@ -132,23 +154,20 @@ const styles = StyleSheet.create({
         textShadowRadius:5
     },
     startIcon: {
+        height: 80,
+        width: 80,
         alignSelf: 'center',
-        height: 60,
-        width: 60,
-        alignContent: 'center'
+        marginLeft: 10
     },
     startBorder: {
         width: 150,
         height:150,
-        alignSelf: 'center',
         borderColor: '#086788',
         borderRadius: 360,
         borderWidth: 5,
         backgroundColor: '#FBF199',
-        justifyContent: 'center',
-        alignItems: 'center',
-        alignContent: 'center',
-        marginTop:70
+        marginTop:70,
+        justifyContent: 'center'
     },
     greyBackground: {
         backgroundColor: '#F3EFE4',
