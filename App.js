@@ -55,7 +55,7 @@ const switchNavigator = createSwitchNavigator({
                 headerShown: false
               }
             },
-            freeCyclingStop: {
+            FreeCyclingStop: {
               screen: FreeCyclingStopScreen,
               navigationOptions: {
                 title: 'Home',
@@ -101,7 +101,7 @@ const switchNavigator = createSwitchNavigator({
       }),
       activeColor: 'transparent',
       inactiveColor: 'transparent',
-      barStyle: {backgroundColor: '#F3EFE4', alignItems: 'center'},
+      barStyle: {backgroundColor: '#F3EFE4', alignItems: 'center', borderTopColor: '#FF8E15', borderTopWidth: 3},
       
       tabBarOptions: {
         activeTintColor: '#FF8E15',
