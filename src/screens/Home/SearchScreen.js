@@ -3,6 +3,9 @@ import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, FlatList, 
 import { SafeAreaView } from 'react-navigation'
 import { Ionicons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
+import {Dimensions} from 'react-native'
+const win = Dimensions.get('window');
+
 
 const SearchScreen = ({navigation}) => {
     const[name, setName] = useState('')
@@ -38,16 +41,26 @@ const SearchScreen = ({navigation}) => {
                             placeholder='Name'
                             value={name}
                             onChangeText={(newName) => {setName(newName)}}
-                        />
-
+                />
+                <Image style={styles.map} source={require('../../../assets/gambar.jpg')} />
             </ScrollView>
         </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
+    inputStyle:{
+        marginHorizontal:10,
+        borderWidth:3,
+        borderColor:'#F3EFE4',
+        borderRadius:15,
+        margin:10,
+        backgroundColor:'white',
+        paddingLeft :10
+    },
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor:'#FBF199'
     },
     header: {
         flexDirection: 'row',
@@ -57,7 +70,8 @@ const styles = StyleSheet.create({
     },
     headerText: {
         fontSize: 20,
-        color: '#F3EFE4'
+        color: '#F3EFE4',
+        marginLeft:10
     },
     icon: {
         height: 50,
@@ -96,6 +110,12 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         elevation: 5
     },
+    map:{
+        alignSelf:'center',
+        width:win.width,
+        flex:1,
+        height: 600
+    }
 })
 
 export default SearchScreen

@@ -95,7 +95,8 @@ const styles = StyleSheet.create({
     },
     headerText: {
         fontSize: 20,
-        color: '#F3EFE4'
+        color: '#F3EFE4',
+        marginLeft: 10
     },
     icon: {
         height: 50,

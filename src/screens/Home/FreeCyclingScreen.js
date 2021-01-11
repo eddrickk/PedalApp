@@ -1,10 +1,16 @@
 import React, { useContext, useState } from 'react'
-import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, FlatList, ScrollView, Image } from 'react-native'
+import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, FlatList, ScrollView, Image, ImageBackground, Dimensions } from 'react-native'
 import { SafeAreaView } from 'react-navigation'
 import { Ionicons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
+const win = Dimensions.get('window');
 
-const FreeCyclingScreen = ({navigation}) => {
+const FreeCyclingScreen = ({ navigation }) => {
+    const [hours, setHours] = useState('00')
+    const [minutes, setMinutes] = useState('00')
+    const [seconds, setSeconds] = useState('00')
+    const [distance, setDistance] = useState('0')
+    const [avg, setAvg] = useState('0')
     return (
         <SafeAreaView forceInset={{top:'always'}} style={styles.container}>
             <ScrollView
@@ -29,11 +35,27 @@ const FreeCyclingScreen = ({navigation}) => {
                         <Text style={styles.buttonFreeCycling}>FreeCycling</Text>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity onPress={() => {navigation.navigate('FreeCyclingStart')}}>
-                    <Text>Button Here</Text>
-                </TouchableOpacity>
+                <View>
+                    <ImageBackground
+                        source={require('../../../assets/cycling.png')}
+                        style={styles.cyclingBackground} imageStyle={{ opacity: 0.4 }}
+                    >
+                        <TouchableOpacity onPress={() => { navigation.navigate('FreeCyclingStart') }}>
+                            <View style={styles.startBorder} >
+                                <Image style={styles.startIcon} source={require('../../../assets/play.png')} />
+                            </View>
+                        </TouchableOpacity> 
+                        <Text style={styles.startText}>Start Free Cycling</Text>
+                    </ImageBackground>
+                </View>
+                <View style={styles.greyBackground} >
+                    <Text style={styles.resultText} > Time               {hours}:{minutes}:{hours}</Text>
+                    <Text style={styles.resultText} > Distance        {distance}m</Text>
+                    <Text style={styles.resultText} > Avg. Speed   {avg}m/s</Text>
+                </View>
             </ScrollView>
         </SafeAreaView>
+        
     )
 }
 
@@ -49,7 +71,8 @@ const styles = StyleSheet.create({
     },
     headerText: {
         fontSize: 20,
-        color: '#F3EFE4'
+        color: '#F3EFE4',
+        marginLeft: 10
     },
     icon: {
         height: 50,
@@ -90,6 +113,55 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         elevation: 5
     },
+    cyclingBackground: {
+        alignSelf: 'center',
+        width: win.width,
+        flex: 1,
+        height: 375,
+    },
+    startText: {
+        fontWeight: 'bold',
+        fontSize: 25,
+        alignSelf: 'center',
+        color: '#086788',
+        textShadowColor: '#FDF9B7',
+        textShadowOffset: {
+            height: 1,
+            width: 1
+        },
+        textShadowRadius:5
+    },
+    startIcon: {
+        alignSelf: 'center',
+        height: 60,
+        width: 60,
+        alignContent: 'center'
+    },
+    startBorder: {
+        width: 150,
+        height:150,
+        alignSelf: 'center',
+        borderColor: '#086788',
+        borderRadius: 360,
+        borderWidth: 5,
+        backgroundColor: '#FBF199',
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignContent: 'center',
+        marginTop:70
+    },
+    greyBackground: {
+        backgroundColor: '#F3EFE4',
+        height: 685,
+        borderBottomColor: '#FF8E15',
+        borderBottomWidth: win.width
+    },
+    resultText: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        marginLeft: 60,
+        marginTop:35
+    }
 })
 
 export default FreeCyclingScreen
