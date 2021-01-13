@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, FlatList, ScrollView, Image } from 'react-native'
 import { SafeAreaView } from 'react-navigation'
+import Header from '../../components/Header'
 import { Ionicons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
 import {Dimensions} from 'react-native'
@@ -14,10 +15,7 @@ const SearchScreen = ({navigation}) => {
     return (
         <SafeAreaView forceInset={{top:'always'}} style={styles.container}>
             <View style={{backgroundColor: '#FBF199'}}>
-                <View style={styles.header}>
-                    <Text style={styles.headerText}>Home</Text>
-                    <Image style={styles.icon} source={require('../../../assets/icon.png')} />
-                </View>
+                <Header title='Home' />
                 
                 <View style={{flexDirection: 'row'}}>
                     <TouchableOpacity style={{
@@ -67,21 +65,7 @@ const styles = StyleSheet.create({
     scrollView: {
         backgroundColor:'#FBF199'
     },
-    header: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: '#FF8E15',
-        justifyContent: 'space-between',
-    },
-    headerText: {
-        fontSize: 20,
-        color: '#F3EFE4',
-        marginLeft:10
-    },
-    icon: {
-        height: 50,
-        width: 50,
-    },
+    
     buttonSearch: {
         color: '#086788',
         backgroundColor: '#FFD8AD',

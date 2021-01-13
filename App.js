@@ -10,6 +10,11 @@ import FreeCyclingScreen from './src/screens/Home/FreeCyclingScreen'
 import FreeCyclingStartScreen from './src/screens/Home/FreeCyclingStartScreen'
 import FreeCyclingStopScreen from './src/screens/Home/FreeCyclingStopScreen'
 import SearchFriendScreen from './src/screens/Friends/SearchFriendScreen'
+import FriendProfileScreen from './src/screens/Friends/FriendProfileScreen'
+import FriendAddScreen from './src/screens/Friends/FriendAddScreen'
+import CyclingWithFriendsScreen from './src/screens/Friends/CyclingWithFriendsScreen'
+import { Provider as FriendProvider } from './src/context/FriendContext'
+import { Provider as UserProvider } from './src/context/UserContext'
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs'
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context'
 
@@ -63,14 +68,45 @@ const switchNavigator = createSwitchNavigator({
               }
             },
           })
-          
         },{
           initialRouteName: 'Search'
         }
-        ),
-      friendFlow: createStackNavigator(
+      ),
+      friendFlow: createSwitchNavigator(
         {
-          SearchFriend: SearchFriendScreen
+          friendDataFlow: createStackNavigator({
+            SearchFriend: {
+              screen: SearchFriendScreen,
+              navigationOptions: {
+                title: 'Friends',
+                headerShown: false
+              }
+            },
+            FriendProfile: {
+              screen: FriendProfileScreen,
+              navigationOptions: {
+                title: 'Friends',
+                headerShown: false
+              }
+            },
+            FriendAdd: {
+              screen: FriendAddScreen,
+              navigationOptions: {
+                title: 'Add Friends',
+                headerShown: false
+              }
+            }
+          }),
+          cyclingWithFriendsFlow: createSwitchNavigator({
+            CyclingWithFriends: {
+              screen: CyclingWithFriendsScreen,
+              navigationOptions: {
+                headerShown: false
+              }
+            }
+          })
+        },{
+          initialRouteName: 'friendDataFlow'
         }
       )
     },
@@ -117,7 +153,11 @@ const App = createAppContainer(switchNavigator)
 
 export default () => {
   return (
-      <App />
+    <UserProvider>
+      <FriendProvider>
+        <App />
+      </FriendProvider>
+    </UserProvider>
   )
   
 }

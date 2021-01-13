@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, FlatList, 
 import { SafeAreaView } from 'react-navigation'
 import { Ionicons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
+import Header from '../../components/Header'
 const win = Dimensions.get('window');
 
 const FreeCyclingScreen = ({ navigation }) => {
@@ -13,11 +14,7 @@ const FreeCyclingScreen = ({ navigation }) => {
     const [avg, setAvg] = useState('0')
     return (
         <SafeAreaView forceInset={{top:'always'}} style={styles.container}>
-            
-                <View style={styles.header}>
-                    <Text style={styles.headerText}>Home</Text>
-                    <Image style={styles.icon} source={require('../../../assets/icon.png')} />
-                </View>
+                <Header title='Home' />
                 
                 <View style={{flexDirection: 'row'}}>
                     <TouchableOpacity style={{
@@ -48,8 +45,18 @@ const FreeCyclingScreen = ({ navigation }) => {
                     <Text style={styles.startText}>Start Free Cycling</Text>
                 </ImageBackground>
                 <View style={styles.detail}>
-                    <View style={{alignSelf: 'center', width: win.width-140}}>
-                        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-around', alignSelf: 'center', width: win.width-140}}>
+                        <View>
+                            <Text style={styles.textStyle}>Time</Text>
+                            <Text style={styles.textStyle}>Distance</Text>
+                            <Text style={styles.textStyle}>Avg. Speed</Text>
+                        </View>
+                        <View>
+                            <Text style={styles.textStyle}>{hours} : {minutes} : {seconds}</Text>
+                            <Text style={styles.textStyle}>{distance} m</Text>
+                            <Text style={styles.textStyle}>{avg} m/s</Text>
+                        </View>
+                        {/* <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                             <Text style={styles.textStyle}>Time</Text>
                             <Text style={styles.textStyle}>00 : 00 : 02</Text>
                         </View>
@@ -60,7 +67,7 @@ const FreeCyclingScreen = ({ navigation }) => {
                         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                             <Text style={styles.textStyle}>Avg.Speed</Text>
                             <Text style={styles.textStyle}>0.5 m/s</Text>
-                        </View>
+                        </View> */}
                     </View>
                 </View>
             </ScrollView>
@@ -73,24 +80,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1
     },
-    header: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: '#FF8E15',
-        justifyContent: 'space-between',
-    },
+    
     scrollView: {
         backgroundColor:'#F3EFE4'
     },
-    headerText: {
-        fontSize: 20,
-        color: '#F3EFE4',
-        marginLeft: 10
-    },
-    icon: {
-        height: 50,
-        width: 50,
-    },
+    
     textStyle: {
         fontSize: 24,
     },

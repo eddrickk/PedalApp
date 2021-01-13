@@ -3,11 +3,17 @@ import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, FlatList, 
 import { SafeAreaView } from 'react-navigation'
 import { Ionicons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
+import Header from '../../components/Header'
 import * as Font from 'expo-font'
 import AppLoading from 'expo-app-loading'
 
 const FreeCyclingStartScreen = ({navigation}) => {
     const [state, setState] = useState(false)
+    const [hours, setHours] = useState('00')
+    const [minutes, setMinutes] = useState('00')
+    const [seconds, setSeconds] = useState('00')
+    const [distance, setDistance] = useState('0')
+    const [avg, setAvg] = useState('0')
     const win = Dimensions.get('window')
    /*  useEffect(async () => {
         let isLoaded = await Font.loadAsync({
@@ -25,10 +31,7 @@ const FreeCyclingStartScreen = ({navigation}) => {
                 showsVerticalScrollIndicator={false}
                 keyboardShouldPersistTaps="handled"
             >
-                <View style={styles.header}>
-                    <Text style={styles.headerText}>Home</Text>
-                    <Image style={styles.icon} source={require('../../../assets/icon.png')} />
-                </View>
+                <Header title='Home' />
                 
                 <View style={{flexDirection: 'row'}}>
                     <TouchableOpacity style={{
@@ -47,18 +50,16 @@ const FreeCyclingStartScreen = ({navigation}) => {
                     <TouchableOpacity onPress={() => {navigation.navigate('FreeCyclingStop')}}>
                         <Text style={styles.buttonStop}>Stop Cycling</Text>
                     </TouchableOpacity>
-                    <View style={{alignSelf: 'center', width: win.width-140}}>
-                        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-around', alignSelf: 'center', width: win.width-140}}>
+                        <View>
                             <Text style={styles.textStyle}>Time</Text>
-                            <Text style={styles.textStyle}>00 : 00 : 02</Text>
-                        </View>
-                        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                             <Text style={styles.textStyle}>Distance</Text>
-                            <Text style={styles.textStyle}>1.0 m</Text>
+                            <Text style={styles.textStyle}>Avg. Speed</Text>
                         </View>
-                        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                            <Text style={styles.textStyle}>Avg.Speed</Text>
-                            <Text style={styles.textStyle}>0.5 m/s</Text>
+                        <View>
+                            <Text style={styles.textStyle}>{hours} : {minutes} : {seconds}</Text>
+                            <Text style={styles.textStyle}>{distance} m</Text>
+                            <Text style={styles.textStyle}>{avg} m/s</Text>
                         </View>
                     </View>
                     
@@ -76,21 +77,7 @@ const styles = StyleSheet.create({
     scrollView: {
         backgroundColor: '#F3EFE4'
     },
-    header: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: '#FF8E15',
-        justifyContent: 'space-between',
-    },
-    headerText: {
-        fontSize: 20,
-        color: '#F3EFE4',
-        marginLeft: 10
-    },
-    icon: {
-        height: 50,
-        width: 50,
-    },
+    
     textStyle: {
         fontSize: 24,
     },
