@@ -12,9 +12,14 @@ import FreeCyclingStopScreen from './src/screens/Home/FreeCyclingStopScreen'
 import SearchFriendScreen from './src/screens/Friends/SearchFriendScreen'
 import FriendProfileScreen from './src/screens/Friends/FriendProfileScreen'
 import FriendAddScreen from './src/screens/Friends/FriendAddScreen'
+import FriendNearbyScreen from './src/screens/Friends/FriendNearbyScreen'
 import CyclingWithFriendsScreen from './src/screens/Friends/CyclingWithFriendsScreen'
+import CyclingWithFriendsStartScreen from './src/screens/Friends/CyclingWithFriendsStartScreen'
+import CyclingWithFriendsStopScreen from './src/screens/Friends/CyclingWithFriendsStopScreen'
+import InviteFriendScreen from './src/screens/Friends/InviteFriendScreen'
 import { Provider as FriendProvider } from './src/context/FriendContext'
 import { Provider as UserProvider } from './src/context/UserContext'
+import { Provider as CyclingProvider } from './src/context/CyclingwithFriendContext'
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs'
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context'
 
@@ -95,11 +100,45 @@ const switchNavigator = createSwitchNavigator({
                 title: 'Add Friends',
                 headerShown: false
               }
+            },
+            FriendNearby: {
+              screen: FriendNearbyScreen,
+              navigationOptions: {
+                title: 'Nearby',
+                headerShown: false
+              }
             }
           }),
-          cyclingWithFriendsFlow: createSwitchNavigator({
-            CyclingWithFriends: {
-              screen: CyclingWithFriendsScreen,
+          cyclingWithFriendsFlow: createStackNavigator({
+            cyclingFlow: createSwitchNavigator({
+              CyclingWithFriends: {
+                screen: CyclingWithFriendsScreen,
+                navigationOptions: {
+                  title: 'Friends',
+                  headerShown: false
+                }
+              },
+              CyclingWithFriendsStart: {
+                screen: CyclingWithFriendsStartScreen,
+                navigationOptions: {
+                  title: 'Friends',
+                  headerShown: false
+                }
+              },
+              CyclingWithFriendsStop: {
+                screen: CyclingWithFriendsStopScreen,
+                navigationOptions: {
+                  title: 'Friends',
+                  headerShown: false
+                }
+              },
+            },{
+              navigationOptions: {
+                headerShown: false
+              }
+            }),
+            InviteFriend: {
+              screen: InviteFriendScreen,
               navigationOptions: {
                 headerShown: false
               }
@@ -153,11 +192,14 @@ const App = createAppContainer(switchNavigator)
 
 export default () => {
   return (
-    <UserProvider>
-      <FriendProvider>
-        <App />
-      </FriendProvider>
-    </UserProvider>
+    <CyclingProvider>
+      <UserProvider>
+        <FriendProvider>
+          <App />
+        </FriendProvider>
+      </UserProvider>
+    </CyclingProvider>
+    
   )
   
 }

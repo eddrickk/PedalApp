@@ -5,7 +5,7 @@ import { get } from 'react-native/Libraries/Utilities/PixelRatio'
 const reducer = (state, action) => {
     switch (action.type) {
         case 'add_friend':
-            return [...state, {id: state.length+1, image: action.payload.image, name: action.payload.name}]
+            return [...state, {id: action.payload.id, image: action.payload.image, name: action.payload.name}]
         /* case 'get_friends':
             return action.payload */
         /* case 'edit_friend':
@@ -32,8 +32,8 @@ const reducer = (state, action) => {
 } */
 
 const addFriend = dispatch => {
-    return async (image, name, callback) => {
-        await dispatch({type: 'add_friend', payload: {image: image, name: name}})
+    return async (id, image, name, callback) => {
+        await dispatch({type: 'add_friend', payload: {id: id, image: image, name: name}})
         if (callback){
             callback()
         }

@@ -7,20 +7,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { FontAwesome } from '@expo/vector-icons'
 const win = Dimensions.get('window');
 
-const FriendAddScreen = ({navigation}) => {
-    /* const [dataUser, setDataUser] = useState(null)
-    const [dataFriend, setDataFriend] = useState(null)
-
-    const getUserData = () => {
-        const {data} = useContext(UserContext)
-        setDataUser(data)
-    }
-
-    const getFriendData = () => {
-        const {data} = useContext(FriendContext)
-        setDataFriend(data)
-    } */
-    
+const FriendNearbyScreen = ({navigation}) => {
     const {data} = useContext(UserContext)
     const {addFriend} = useContext(FriendContext)
     const[name, setName] = useState('')
@@ -31,50 +18,26 @@ const FriendAddScreen = ({navigation}) => {
             'Information',
             'Friend Added',
             [
-            {text: 'OK', onPress: () => navigation.navigate('FriendAdd')},
+            {text: 'OK', onPress: () => navigation.navigate('FriendNearby')},
             ]
         );
     }
 
-      
 
-    const filterDataByName = (nameChosen) => {
-        return data.filter(data => {
-            return data.name.toLowerCase().includes(nameChosen.toLowerCase())
-        })
-    }
+    useEffect(()=>{
+        setResult(data)
+    }, [data])
 
-    
-    /* useEffect(()=>{
-        getUserData(),
-        getFriendData(),
-        setResult(filterDataByID(id))
-    }, []) */
     return (
         <SafeAreaView forceInset={{top:'always'}} style={styles.container}>
             <View style={styles.header}>
                 <TouchableOpacity onPress={()=>{navigation.navigate('SearchFriend')}}>
                     <Ionicons name="chevron-back" size={24} color="#F3EFE4" />
                 </TouchableOpacity>
-                <Text style={styles.headerText}>Add Friends</Text>
+                <Text style={styles.headerText}>Nearby</Text>
                 <Image style={styles.icon} source={require('../../../assets/icon.png')} />
             </View>
-            <View style={{backgroundColor: '#FBF199'}}>
-                <View style={styles.inputStyle}>
-                    <TextInput 
-                        style={{flex: 1}}
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        placeholder='Search by Name'
-                        value={name}
-                        onChangeText={(newName) => {setName(newName), setResult(filterDataByName(newName))}}
-                        onEndEditing={() => {setResult(filterDataByName(name))}}
-                    />
-                    <TouchableOpacity onPress={() => {setResult(filterDataByName(name))}}>
-                        <Image style={styles.searchIcon} source={require('../../../assets/Search.png')} />
-                    </TouchableOpacity>
-                </View>
-            </View>
+            
             <ScrollView>
                 <FlatList 
                     data={results}
@@ -229,4 +192,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default FriendAddScreen
+export default FriendNearbyScreen

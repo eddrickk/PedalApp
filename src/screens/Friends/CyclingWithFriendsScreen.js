@@ -1,27 +1,90 @@
-import React, { useContext, useState } from 'react'
-import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, FlatList, ScrollView, Image } from 'react-native'
+import React, { useContext, useState, useEffect, Component } from 'react'
+import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, FlatList, ScrollView, Image, TextInputComponent, Dimensions } from 'react-native'
 import { SafeAreaView } from 'react-navigation'
+import { Ionicons } from '@expo/vector-icons'
+import { LinearGradient } from 'expo-linear-gradient'
+import { Context as CyclingContext } from '../../context/CyclingwithFriendContext'
 import Header from '../../components/Header'
+import * as Font from 'expo-font'
+import AppLoading from 'expo-app-loading'
 
-const CyclingWithFriendsScreen = ({navigation}) => {
+const FreeCyclingStartScreen = ({navigation}) => {
+    const {data, addPlayer} = useContext(CyclingContext)
+    const [roomID, setRoomID] = useState(data.length + 1)
+    const [state, setState] = useState(false)
+    const [hours, setHours] = useState('00')
+    const [minutes, setMinutes] = useState('00')
+    const [seconds, setSeconds] = useState('00')
+    const [distance, setDistance] = useState('0')
+    const [avg, setAvg] = useState('0')
+    const win = Dimensions.get('window')
+   /*  useEffect(async () => {
+        let isLoaded = await Font.loadAsync({
+            DoHyeon: require('../../assets/fonts/DoHyeon-Regular.ttf')
+        })
+    },[]
+    )
+       */  
+      console.log(data)
+    useEffect(()=>{
+        addPlayer(roomID, 5, 'https://www.iconsdb.com/icons/preview/color/FF8E15/contacts-xxl.png', 'user', 0, 0, 0)
+    }, [])
+
+    const filterDataByID = (roomIDChosen) => {
+        return data.filter(data => {
+            return data.room_id === roomIDChosen
+        })
+    }
+    
     return (
         <SafeAreaView forceInset={{top:'always'}} style={styles.container}>
-            <View style={{backgroundColor: '#FBF199'}}>
-                <Header title='Friends' />
-                
-                <View style={{flexDirection: 'row'}}>
-                    <TouchableOpacity style={{
-                        flex: 1,
-                    }} onPress={() => {navigation.navigate('SearchFriend')}}>
-                        <Text style={styles.buttonSearch}>Search</Text>
+            <Header title='Friends' />
+            
+            <View style={{flexDirection: 'row'}}>
+                <TouchableOpacity style={{
+                    flex: 1,
+                }} onPress={() => {navigation.navigate('SearchFriend')}}>
+                    <Text style={styles.buttonSearch}>Search</Text>
+                </TouchableOpacity> 
+                <TouchableOpacity style={{
+                    flex: 1,
+                }} onPress={() => {navigation.navigate('CyclingWithFriends')}}>
+                    <Text style={styles.buttonFreeCycling}>Cycling with Friends</Text>
+                </TouchableOpacity>
+            </View>
+            <Image style={styles.map} source={require('../../../assets/FreeCyclingMap.png')} />
+            <ScrollView
+            style={styles.scrollView}
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+            >
+                <View style={styles.detail}>
+                    <TouchableOpacity onPress={() => {navigation.navigate('CyclingWithFriendsStart', {room_id: roomID})}}>
+                        <Text style={styles.buttonStart}>Start Cycling</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{
-                        flex: 1,
-                    }} onPress={() => {navigation.navigate('cyclingWithFriendsFlow')}}>
-                        <Text style={styles.buttonCycling}>Cycling with Friends</Text>
+                    <TouchableOpacity onPress={() => {navigation.navigate('CyclingWithFriendsStart')}}>
+                        <Text style={styles.buttonLeave}>Leave Room</Text>
                     </TouchableOpacity>
                 </View>
-            </View>
+                <View style={{flexDirection: 'row', justifyContent: 'center'}}>
+                    <FlatList 
+                        horizontal
+                        data={filterDataByID(roomID)}
+                        keyExtractor={user => user.id}
+                        renderItem={({item}) => {
+                            return (
+                                <View style={styles.picBorder}>
+                                    <Image style={styles.profilePic} source={{uri: item.image}} />
+                                </View>
+                            )
+                        }}
+                    />
+                    <TouchableOpacity onPress={() => {navigation.navigate('InviteFriend', {room_id: roomID})}}>
+                        <Image style={styles.profilePic} source={require('../../../assets/Add_User.png')} />
+                    </TouchableOpacity>
+                </View>
+                
+            </ScrollView>
         </SafeAreaView>
     )
 }
@@ -29,9 +92,16 @@ const CyclingWithFriendsScreen = ({navigation}) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        
+    },
+    scrollView: {
+        backgroundColor: '#FBF199'
     },
     
-    buttonCycling: {
+    textStyle: {
+        fontSize: 24,
+    },
+    buttonFreeCycling: {
         color: '#086788',
         backgroundColor: '#FFD8AD',
         fontWeight: 'bold',
@@ -40,6 +110,7 @@ const styles = StyleSheet.create({
         borderBottomRightRadius: 12,
         textAlignVertical: 'center',
         textAlign: 'center',
+        shadowColor: 'black',
         shadowOffset: {
             width: 1,
             height: -2
@@ -56,6 +127,7 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 12,
         textAlignVertical: 'center',
         textAlign: 'center',
+        shadowColor: 'black',
         shadowOffset: {
             width: 1,
             height: -2
@@ -64,6 +136,68 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         elevation: 5
     },
+    map: {
+        height: 300,
+    },
+    detail: {
+        backgroundColor: '#F3EFE4',
+        borderTopWidth: 3,
+        borderTopColor: '#FF8E15'
+    },
+    buttonStart: {
+        color: '#FDF9B7',
+        backgroundColor: '#FF8E15',
+        fontWeight: 'bold',
+        fontSize: 16,
+        height: 45,
+        width: 230,
+        borderRadius: 17,
+        alignSelf: 'center',
+        textAlignVertical: 'center',
+        textAlign: 'center',
+        marginBottom: 10,
+        marginTop: 10,
+        shadowColor: 'black',
+        shadowOffset: {
+            width: 1,
+            height: -2
+          },
+        shadowOpacity: 0.5,
+        shadowRadius: 2,
+        elevation: 5
+    },
+    buttonLeave: {
+        color: '#FDF9B7',
+        backgroundColor: '#084B83',
+        fontWeight: 'bold',
+        fontSize: 16,
+        height: 45,
+        width: 230,
+        borderRadius: 17,
+        alignSelf: 'center',
+        textAlignVertical: 'center',
+        textAlign: 'center',
+        marginBottom: 10,
+
+        shadowColor: 'black',
+        shadowOffset: {
+            width: 1,
+            height: -2
+          },
+        shadowOpacity: 0.5,
+        shadowRadius: 2,
+        elevation: 5
+    },
+    picBorder: {
+        borderRadius: 360,
+    },
+    profilePic: {
+        width: 50,
+        height: 50,
+        alignSelf: 'center',
+        marginVertical: 10,
+        marginHorizontal: 20
+    },
 })
 
-export default CyclingWithFriendsScreen
+export default FreeCyclingStartScreen

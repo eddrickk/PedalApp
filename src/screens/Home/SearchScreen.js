@@ -38,7 +38,7 @@ const SearchScreen = ({navigation}) => {
                         style={styles.inputStyle}
                         autoCapitalize="none"
                         autoCorrect={false}
-                        placeholder='Search'
+                        placeholder='Destination'
                         value={name}
                         onChangeText={(newName) => {setName(newName)}}
                     />
