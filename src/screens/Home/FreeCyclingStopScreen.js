@@ -6,6 +6,9 @@ import { LinearGradient } from 'expo-linear-gradient'
 import Header from '../../components/Header'
 
 const FreeCyclingStopScreen = ({navigation}) => {
+    const time_spent = navigation.getParam('time_spent')
+    const distance_travelled = navigation.getParam('distance_travelled')
+    const average_speed = navigation.getParam('average_speed')
     const [hours, setHours] = useState('00')
     const [minutes, setMinutes] = useState('00')
     const [seconds, setSeconds] = useState('00')
@@ -64,9 +67,9 @@ const FreeCyclingStopScreen = ({navigation}) => {
                             <Text style={styles.textStyle}>Avg. Speed</Text>
                         </View>
                         <View>
-                            <Text style={styles.textStyle}>{hours} H {minutes} M {seconds} s</Text>
-                            <Text style={styles.textStyle}>{distance} m</Text>
-                            <Text style={styles.textStyle}>{avg} m/s</Text>
+                            <Text style={styles.textStyle}>{Math.floor(time_spent/3600)} H {Math.floor((time_spent%3600)/60)} M {(time_spent%3600)%60} s</Text>
+                            <Text style={styles.textStyle}>{distance_travelled} m</Text>
+                            <Text style={styles.textStyle}>{average_speed.toFixed(2)} m/s</Text>
                         </View>
                     </View>
                     <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>

@@ -35,9 +35,7 @@ const FriendAddScreen = ({navigation}) => {
             ]
         );
     }
-
-      
-
+    
     const filterDataByName = (nameChosen) => {
         return data.filter(data => {
             return data.name.toLowerCase().includes(nameChosen.toLowerCase())

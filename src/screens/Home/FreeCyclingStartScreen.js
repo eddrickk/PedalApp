@@ -3,18 +3,36 @@ import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, FlatList, 
 import { SafeAreaView } from 'react-navigation'
 import { Ionicons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
+import AccountContext from '../../context/AccountContext'
+import { Context as UserContext } from '../../context/UserContext'
+import CyclingHistoryContext from '../../context/CyclingHistoryContext'
 import Header from '../../components/Header'
 import * as Font from 'expo-font'
 import AppLoading from 'expo-app-loading'
 
 const FreeCyclingStartScreen = ({navigation}) => {
+    const hours_start = navigation.getParam('hours_start')
+    const minutes_start = navigation.getParam('minutes_start')
+    const {data} = useContext(UserContext)
+    const {account} = useContext(AccountContext)
+    const [accountData, setAccountData] = useState(account[account.length-1])
+    const {history, fun} = useContext(CyclingHistoryContext)
     const [state, setState] = useState(false)
-    const [hours, setHours] = useState('00')
-    const [minutes, setMinutes] = useState('00')
-    const [seconds, setSeconds] = useState('00')
-    const [distance, setDistance] = useState('0')
-    const [avg, setAvg] = useState('0')
+    const [hours, setHours] = useState(1)
+    const [minutes, setMinutes] = useState(24)
+    const [seconds, setSeconds] = useState(30)
+    const [distance, setDistance] = useState(5316)
+    const [avg, setAvg] = useState((distance/(hours*3600 + minutes*60 + seconds)).toFixed(2))
     const win = Dimensions.get('window')
+    var d = new Date();
+    var weekday = new Array(7);
+    weekday[0] = "Sunday";
+    weekday[1] = "Monday";
+    weekday[2] = "Tuesday";
+    weekday[3] = "Wednesday";
+    weekday[4] = "Thursday";
+    weekday[5] = "Friday";
+    weekday[6] = "Saturday";
    /*  useEffect(async () => {
         let isLoaded = await Font.loadAsync({
             DoHyeon: require('../../assets/fonts/DoHyeon-Regular.ttf')
@@ -22,7 +40,11 @@ const FreeCyclingStartScreen = ({navigation}) => {
     },[]
     )
        */  
-    
+    const filterDataByUsername = (usernameChosen) => {
+        return data.filter(data => {
+            return data.username.toLowerCase() === usernameChosen.toLowerCase()
+        })
+    }
     
     return (
         <SafeAreaView forceInset={{top:'always'}} style={styles.container}>
@@ -47,10 +69,12 @@ const FreeCyclingStartScreen = ({navigation}) => {
                 </View>
                 <Image style={styles.map} source={require('../../../assets/FreeCyclingMap.png')} />
                 <View style={styles.detail}>
-                    <TouchableOpacity onPress={() => {navigation.navigate('FreeCyclingStop')}}>
+                    <TouchableOpacity onPress={() => {fun.addHistory(history.length+1, filterDataByUsername(accountData.username)[0].id, 'Free Cycling', (hours*3600 + minutes*60 + seconds), distance, 
+                        distance/(hours*3600 + minutes*60 + seconds), weekday[d.getDay()], d.getDate(), d.getMonth()+1, d.getFullYear(), hours_start, d.getHours(), minutes_start, d.getMinutes()), 
+                        navigation.navigate('FreeCyclingStop', {time_spent: (hours*3600 + minutes*60 + seconds), distance_travelled: distance, average_speed: distance/(hours*3600 + minutes*60 + seconds)})}}>
                         <Text style={styles.buttonStop}>Stop Cycling</Text>
                     </TouchableOpacity>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-around', alignSelf: 'center', width: win.width-140}}>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-around', alignSelf: 'center', width: win.width-30}}>
                         <View>
                             <Text style={styles.textStyle}>Time</Text>
                             <Text style={styles.textStyle}>Distance</Text>

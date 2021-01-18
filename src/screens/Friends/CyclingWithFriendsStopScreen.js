@@ -3,27 +3,36 @@ import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, FlatList, 
 import { SafeAreaView } from 'react-navigation'
 import { Ionicons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
-import { Context as CyclingContext } from '../../context/CyclingwithFriendContext'
+import CyclingwithFriendContext from '../../context/CyclingwithFriendContext'
+import AccountContext from '../../context/AccountContext'
 import { Context as UserContext } from '../../context/UserContext'
 import Header from '../../components/Header'
 const win = Dimensions.get('window')
 
 const CyclingWithFriendsStopScreen = ({navigation}) => {
     const room_id = navigation.getParam('room_id')
-    const {data, addPlayer, editPlayer} = useContext(CyclingContext)
+    const {cycling, funct} = useContext(CyclingwithFriendContext)
+    const {data} = useContext(UserContext)
+    const {account} = useContext(AccountContext)
+    const [accountData, setAccountData] = useState(account[account.length-1])
     const [hours, setHours] = useState('00')
     const [minutes, setMinutes] = useState('00')
     const [seconds, setSeconds] = useState('00')
     const [distance, setDistance] = useState('0')
     const [avg, setAvg] = useState('0')
     
-    const filterDataByID = (roomIDChosen, idChosen) => {
+    const filterDataByUsername = (usernameChosen) => {
         return data.filter(data => {
+            return data.username.toLowerCase() === usernameChosen.toLowerCase()
+        })
+    }
+    const filterDataByID = (roomIDChosen, idChosen) => {
+        return cycling.filter(data => {
             return data.room_id === roomIDChosen && data.id === idChosen
         })
     }
     const filterFriendData = (roomIDChosen, idChosen) => {
-        return data.filter(data => {
+        return cycling.filter(data => {
             return data.room_id === roomIDChosen && data.id !== idChosen
         })
     }
@@ -70,7 +79,7 @@ const CyclingWithFriendsStopScreen = ({navigation}) => {
                     <Text style={{fontSize: 18, alignSelf: 'center', marginBottom: 10}}>Result</Text>
                     <FlatList 
                         horizontal
-                        data={filterDataByID(room_id, 5)}
+                        data={filterDataByID(room_id, filterDataByUsername(accountData.username)[0].id)}
                         keyExtractor={user => user.id}
                         renderItem={({item}) => {
                             return (
@@ -91,7 +100,7 @@ const CyclingWithFriendsStopScreen = ({navigation}) => {
                     />
                     <FlatList 
                         horizontal
-                        data={filterFriendData(room_id, 5)}
+                        data={filterFriendData(room_id, filterDataByUsername(accountData.username)[0].id)}
                         keyExtractor={user => user.id}
                         renderItem={({item}) => {
                             return (
@@ -107,7 +116,7 @@ const CyclingWithFriendsStopScreen = ({navigation}) => {
                         }}
                     />
                     <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'center'}}>
-                        <TouchableOpacity onPress={() => {navigation.navigate('Search')}}>
+                        <TouchableOpacity onPress={() => {navigation.navigate('SearchFriend')}}>
                             <Text style={styles.buttonBreak}>Back to Home</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => {navigation.navigate()}}>

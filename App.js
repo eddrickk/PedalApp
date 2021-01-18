@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Image, StyleSheet } from 'react-native'
+import { Image, StyleSheet, Dimensions } from 'react-native'
 import { createAppContainer, createSwitchNavigator, SafeAreaView } from 'react-navigation'
 import { createStackNavigator, HeaderTitle } from 'react-navigation-stack'
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs'
@@ -17,9 +17,17 @@ import CyclingWithFriendsScreen from './src/screens/Friends/CyclingWithFriendsSc
 import CyclingWithFriendsStartScreen from './src/screens/Friends/CyclingWithFriendsStartScreen'
 import CyclingWithFriendsStopScreen from './src/screens/Friends/CyclingWithFriendsStopScreen'
 import InviteFriendScreen from './src/screens/Friends/InviteFriendScreen'
+import AccountScreen from './src/screens/Account/AccountScreen'
+import EditAccountScreen from './src/screens/Account/EditAccountScreen'
+import CyclingHistoryScreen from './src/screens/Account/CyclingHistoryScreen'
+import ShowCyclingHistoryScreen from './src/screens/Account/ShowCyclingHistoryScreen'
+import CommunityScreen from './src/screens/Community/CommunityScreen'
+import CyclingBattleScreen from './src/screens/Battle/CyclingBattleScreen'
 import { Provider as FriendProvider } from './src/context/FriendContext'
 import { Provider as UserProvider } from './src/context/UserContext'
-import { Provider as CyclingProvider } from './src/context/CyclingwithFriendContext'
+import AccountContext, { AccountProvider } from './src/context/AccountContext'
+import { CyclingwithFriendProvider as CyclingProvider } from './src/context/CyclingwithFriendContext'
+import { CyclingHistoryProvider } from './src/context/CyclingHistoryContext'
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs'
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context'
 
@@ -147,7 +155,59 @@ const switchNavigator = createSwitchNavigator({
         },{
           initialRouteName: 'friendDataFlow'
         }
-      )
+      ),
+
+      communityFlow: createStackNavigator({
+        Community: {
+          screen: CommunityScreen,
+          navigationOptions: {
+            headerShown: false
+          }
+        }
+      },{
+        initialRouteName: 'Community'
+      }
+      ),
+      cyclingBattleFlow: createStackNavigator({
+        CyclingBattle: {
+          screen: CyclingBattleScreen,
+          navigationOptions: {
+            headerShown: false
+          }
+        }
+      },{
+        initialRouteName: 'CyclingBattle'
+      }
+      ),
+      accountFlow: createStackNavigator({
+        Account: {
+          screen: AccountScreen,
+          navigationOptions: {
+            headerShown: false
+          }
+        },
+        EditAccount: {
+          screen: EditAccountScreen,
+          navigationOptions: {
+            headerShown: false
+          }
+        },
+        CyclingHistory: {
+          screen: CyclingHistoryScreen,
+          navigationOptions: {
+            headerShown: false
+          }
+        },
+        ShowCyclingHistory: {
+          screen: ShowCyclingHistoryScreen,
+          navigationOptions: {
+            headerShown: false
+          }
+        }
+      },{
+        initialRouteName: 'Account'
+      }
+      ),
     },
     {
       defaultNavigationOptions: ({ navigation }) => ({
@@ -170,18 +230,40 @@ const switchNavigator = createSwitchNavigator({
                 : <Image
                   source={ require('./assets/Friends_Blue.png') }
                   style={{ width: 40, height: 40, }} />
+            case 'accountFlow':
+              return focused 
+                ? <Image
+                    source={ require('./assets/Account.png') }
+                    style={{ width: 40, height: 40, }} /> 
+                : <Image
+                  source={ require('./assets/Account_Blue.png') }
+                  style={{ width: 40, height: 40, }} />
+            case 'communityFlow':
+              return focused 
+                ? <Image
+                    source={ require('./assets/Community.png') }
+                    style={{ width: 40, height: 40, }} /> 
+                : <Image
+                  source={ require('./assets/Community_Blue.png') }
+                  style={{ width: 40, height: 40, }} />
+            case 'cyclingBattleFlow':
+              return focused 
+                ? <Image
+                    source={ require('./assets/Battle.png') }
+                    style={{ width: 40, height: 40, }} /> 
+                : <Image
+                  source={ require('./assets/Battle_Blue.png') }
+                  style={{ width: 40, height: 40, }} />
           }
         },
-        
       }),
       activeColor: 'transparent',
       inactiveColor: 'transparent',
-      barStyle: {backgroundColor: '#F3EFE4', alignItems: 'center', borderTopColor: '#FF8E15', borderTopWidth: 3},
-      
+      shifting: false,
+      barStyle: {backgroundColor: '#F3EFE4', borderTopColor: '#FF8E15', borderTopWidth: 3},
       tabBarOptions: {
         activeTintColor: '#FF8E15',
         inactiveTintColor: '#084B83',
-        
       },
     },
   )
@@ -192,13 +274,17 @@ const App = createAppContainer(switchNavigator)
 
 export default () => {
   return (
-    <CyclingProvider>
-      <UserProvider>
-        <FriendProvider>
-          <App />
-        </FriendProvider>
-      </UserProvider>
-    </CyclingProvider>
+    <CyclingHistoryProvider>
+      <AccountProvider>   
+        <CyclingProvider>
+          <UserProvider>
+            <FriendProvider>
+              <App />
+            </FriendProvider>
+          </UserProvider>
+        </CyclingProvider>
+      </AccountProvider>
+    </CyclingHistoryProvider>
     
   )
   

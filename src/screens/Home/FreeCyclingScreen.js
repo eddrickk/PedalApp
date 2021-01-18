@@ -1,17 +1,30 @@
 import React, { useContext, useState } from 'react'
 import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, FlatList, ScrollView, Image, ImageBackground, Dimensions } from 'react-native'
 import { SafeAreaView } from 'react-navigation'
+import AccountContext from '../../context/AccountContext'
+import { Context as UserContext } from '../../context/UserContext'
 import { Ionicons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
 import Header from '../../components/Header'
 const win = Dimensions.get('window');
 
 const FreeCyclingScreen = ({ navigation }) => {
+    const {data} = useContext(UserContext)
+    const {account} = useContext(AccountContext)
+    const [accountData, setAccountData] = useState(account[account.length-1])
     const [hours, setHours] = useState('00')
     const [minutes, setMinutes] = useState('00')
     const [seconds, setSeconds] = useState('00')
     const [distance, setDistance] = useState('0')
     const [avg, setAvg] = useState('0')
+    var d = new Date();
+
+    const filterDataByUsername = (usernameChosen) => {
+        return data.filter(data => {
+            return data.username.toLowerCase() === usernameChosen.toLowerCase()
+        })
+    }
+
     return (
         <SafeAreaView forceInset={{top:'always'}} style={styles.container}>
                 <Header title='Home' />
@@ -37,7 +50,7 @@ const FreeCyclingScreen = ({ navigation }) => {
                     source={require('../../../assets/cycling.png')}
                     style={styles.cyclingBackground} imageStyle={{ opacity: 0.4 }}
                 >
-                    <TouchableOpacity onPress={() => { navigation.navigate('FreeCyclingStart') }}>
+                    <TouchableOpacity onPress={() => { navigation.navigate('FreeCyclingStart', {hours_start: d.getHours(), minutes_start: d.getMinutes()}) }}>
                         <View style={styles.startBorder} >
                             <Image style={styles.startIcon} source={require('../../../assets/play.png')} />
                         </View>
@@ -45,7 +58,7 @@ const FreeCyclingScreen = ({ navigation }) => {
                     <Text style={styles.startText}>Start Free Cycling</Text>
                 </ImageBackground>
                 <View style={styles.detail}>
-                    <View style={{flexDirection: 'row', justifyContent: 'space-around', alignSelf: 'center', width: win.width-140}}>
+                    <View style={{flexDirection: 'row', justifyContent: 'space-around', alignSelf: 'center', width: win.width-30}}>
                         <View>
                             <Text style={styles.textStyle}>Time</Text>
                             <Text style={styles.textStyle}>Distance</Text>

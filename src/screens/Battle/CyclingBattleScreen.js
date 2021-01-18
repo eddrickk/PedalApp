@@ -6,29 +6,15 @@ import { Ionicons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
 import {Dimensions} from 'react-native'
 
-
-
-const SearchScreen = ({navigation}) => {
+const CyclingBattleScreen = ({navigation}) => {
     const[name, setName] = useState('')
     const win = Dimensions.get('window');
     const ratio = win.height
     return (
         <SafeAreaView forceInset={{top:'always'}} style={styles.container}>
             <View style={{backgroundColor: '#FBF199'}}>
-                <Header title='Home' />
-                
-                <View style={{flexDirection: 'row'}}>
-                    <TouchableOpacity style={{
-                        flex: 1,
-                    }} onPress={() => {navigation.navigate('Search')}}>
-                        <Text style={styles.buttonSearch}>Search</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{
-                        flex: 1,
-                    }} onPress={() => {navigation.navigate('freeCyclingFlow')}}>
-                        <Text style={styles.buttonFreeCycling}>FreeCycling</Text>
-                    </TouchableOpacity>
-                </View>
+                <Header title='Cycling Battle' />
+
                 <ScrollView
                 style={styles.scrollView}
                 showsVerticalScrollIndicator={false}
@@ -99,12 +85,6 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         elevation: 5
     },
-    /* map:{
-        alignSelf:'center',
-        width:win.width,
-        flex:1,
-        height: 594*ratio
-    } */
 })
 
-export default SearchScreen
+export default CyclingBattleScreen

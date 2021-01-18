@@ -46,7 +46,7 @@ const FriendProfileScreen = ({navigation}) => {
                                     </View>
                                 </View>
                                 <Text style={styles.title}>Profile</Text>
-                                <View style={{flexDirection: 'row', marginHorizontal: 10, width: win.width-100}}>
+                                <View style={styles.content}>
                                     <View style={styles.contentLeft}>
                                         <Text style={styles.contentHeaderStyle}>Username</Text>
                                         <Text style={styles.contentHeaderStyle}>Email</Text>
@@ -60,7 +60,7 @@ const FriendProfileScreen = ({navigation}) => {
                                 </View>
 
                                 <Text style={styles.title}>Statistics</Text>
-                                <View style={{flexDirection: 'row', marginHorizontal: 10, width: win.width-100}}>
+                                <View style={styles.content}>
                                     <View style={styles.contentLeft}>
                                         <Text style={styles.contentHeaderStyle}>Time Spent</Text>
                                         <Text style={styles.contentHeaderStyle}>Distance Travelled</Text>
@@ -74,7 +74,7 @@ const FriendProfileScreen = ({navigation}) => {
                                 </View>
 
                                 <Text style={styles.title}>Cycling Battle</Text>
-                                <View style={{flexDirection: 'row', marginHorizontal: 10, width: win.width-100}}>
+                                <View style={styles.content}>
                                     <View style={styles.contentLeft}>
                                         <Text style={styles.contentHeaderStyle}>Wins</Text>
                                         <Text style={styles.contentHeaderStyle}>Draws</Text>
@@ -121,39 +121,6 @@ const styles = StyleSheet.create({
         height: 50,
         width: 50,
     },
-    buttonSearch: {
-        color: '#086788',
-        backgroundColor: '#FFD8AD',
-        fontWeight: 'bold',
-        fontSize: 16,
-        height: 40,
-        borderBottomLeftRadius: 12,
-        textAlignVertical: 'center',
-        textAlign: 'center',
-        shadowOffset: {
-            width: 1,
-            height: -2
-        },
-        shadowOpacity: 0.5,
-        shadowRadius: 2,
-        elevation: 5
-    },
-    buttonCycling: {
-        color: '#F3EFE4',
-        backgroundColor: '#FF8E15',
-        fontSize: 16,
-        height: 40,
-        borderBottomRightRadius: 12,
-        textAlignVertical: 'center',
-        textAlign: 'center',
-        shadowOffset: {
-            width: 1,
-            height: -2
-        },
-        shadowOpacity: 0.5,
-        shadowRadius: 2,
-        elevation: 5
-    },
     profileTitle: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -177,6 +144,11 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
         marginVertical: 10,
         fontSize: 24
+    },
+    content: {
+        flexDirection: 'row',
+        marginHorizontal: 10,
+        width: win.width-10,
     },
     contentLeft: {
         flex: 1

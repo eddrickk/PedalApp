@@ -1,47 +1,86 @@
-import React, { useContext, useState } from 'react'
-import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, FlatList, Image, TextInputComponent } from 'react-native'
+import React, { useContext, useState, useEffect } from 'react'
+import { Text, View, StyleSheet, TextInput, ScrollView, Button, TouchableOpacity, FlatList, Image, TextInputComponent, Alert } from 'react-native'
 import { SafeAreaView } from 'react-navigation'
 import { LinearGradient } from 'expo-linear-gradient'
+import { Context as UserContext } from '../context/UserContext'
+import AccountContext from '../context/AccountContext'
 
 const SigninScreen = ({navigation}) => {
+    const {data} = useContext(UserContext)
+    const {account, func} = useContext(AccountContext)
     const[username, setUsername] = useState('')
     const[password, setPassword] = useState('')
+    console.log(account)
+
+    const alertButton = () => {
+        Alert.alert(
+            'Information',
+            'Username or Password Invalid !!!',
+            [
+            {text: 'OK', onPress: () => navigation.navigate('Signin')},
+            ]
+        );
+    }
+    const checkUser = () => {
+        for (let user of data){
+            if (user.username === username && user.password === password){
+                return 'true'
+            }
+        }
+        return 'false'
+    }
+
+    const signInState = async () => {
+        if (checkUser() === 'true'){
+            await func.addAccount(username)
+            navigation.navigate('homeFlow')
+        }
+        else{
+            alertButton()
+        }
+    }
+
+    useEffect(()=>{
+        func.deleteAccount()
+    }, [])
+
     return (
         <SafeAreaView forceInset={{top:'always'}} style={styles.container}>
-            <LinearGradient colors={['#FF8E15', 'transparent']} style={{flex: 1}}>
-                <Image style={styles.icon} source={require('../../assets/icon.png')} />
-                <Text style={styles.title}>Login</Text>
-                <TextInput 
-                    style={styles.inputStyle}
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    placeholder='Username'
-                    value={username}
-                    onChangeText={(newUser) => {setUsername(newUser)}}
-                />
-                <TextInput 
-                    style={styles.inputStyle}
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    placeholder='Password'
-                    secureTextEntry={true}
-                    value={password}
-                    onChangeText={(newPass) => {setPassword(newPass)}}
-                />
-                <TouchableOpacity onPress={() => {navigation.navigate('homeFlow')}}>
-                    <Text style={styles.buttonSignin}>SIGN IN</Text>
-                </TouchableOpacity>
-                
-                <Text style={{
-                    color: '#086788',
-                    alignSelf: 'center'
-                }}>Don't have an account ? Get Yours!</Text>
+            <ScrollView>
+                <LinearGradient colors={['#FF8E15', 'transparent']} style={{flex: 1}}>
+                    <Image style={styles.icon} source={require('../../assets/icon.png')} />
+                    <Text style={styles.title}>Login</Text>
+                    <TextInput 
+                        style={styles.inputStyle}
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        placeholder='Username'
+                        value={username}
+                        onChangeText={(newUser) => {setUsername(newUser)}}
+                    />
+                    <TextInput 
+                        style={styles.inputStyle}
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        placeholder='Password'
+                        secureTextEntry={true}
+                        value={password}
+                        onChangeText={(newPass) => {setPassword(newPass)}}
+                    />
+                    <TouchableOpacity onPress={() => signInState()}>
+                        <Text style={styles.buttonSignin}>SIGN IN</Text>
+                    </TouchableOpacity>
+                    
+                    <Text style={{
+                        color: '#086788',
+                        alignSelf: 'center'
+                    }}>Don't have an account ? Get Yours!</Text>
 
-                <TouchableOpacity onPress={() => {navigation.navigate('Signup')}}>
-                    <Text style={styles.buttonSignup}>REGISTER</Text>
-                </TouchableOpacity>
-                
-            </LinearGradient>
+                    <TouchableOpacity onPress={() => {navigation.navigate('Signup')}}>
+                        <Text style={styles.buttonSignup}>REGISTER</Text>
+                    </TouchableOpacity>
+                </LinearGradient>
+            </ScrollView>
         </SafeAreaView>
     )
 }

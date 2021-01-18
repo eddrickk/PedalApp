@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, FlatList, ScrollView, Image, Alert } from 'react-native'
 import { SafeAreaView } from 'react-navigation'
 import { Context as FriendContext } from '../../context/FriendContext'
-import { Context as CyclingContext } from '../../context/CyclingwithFriendContext'
+import CyclingwithFriendContext from '../../context/CyclingwithFriendContext'
 import Header from '../../components/Header'
 import { Feather } from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons'
@@ -11,7 +11,7 @@ import { FontAwesome } from '@expo/vector-icons'
 const InviteFriendScreen = ({navigation}) => {
     const room_id = navigation.getParam('room_id')
     const {data} = useContext(FriendContext)
-    const {addPlayer} = useContext(CyclingContext)
+    const {funct} = useContext(CyclingwithFriendContext)
     const[name, setName] = useState('')
     const[results, setResult] = useState([])
 
@@ -77,7 +77,7 @@ const InviteFriendScreen = ({navigation}) => {
                                         <Image style={styles.profilePic} source={{uri: item.image}} />
                                         <Text style={{flex: 3, alignSelf: 'center', fontSize: 18, fontWeight: 'bold'}}>{item.name}</Text>
                                     </View>
-                                    <TouchableOpacity style={{alignSelf: 'center', marginHorizontal: 20}} onPress={() => addPlayer(room_id, item.id, item.image, item.name, 0, 0, 0, () => {navigation.navigate('CyclingWithFriends')})}>
+                                    <TouchableOpacity style={{alignSelf: 'center', marginHorizontal: 20}} onPress={() => funct.addPlayer(room_id, item.id, item.image, item.name, 0, 0, 0, () => {navigation.navigate('CyclingWithFriends')})}>
                                         <Image style={styles.profilePic} source={require('../../../assets/Add_User.png')} />
                                     </TouchableOpacity>
                                 </View>
@@ -123,13 +123,14 @@ const styles = StyleSheet.create({
         marginLeft:10
     },
     searchIcon: {
-        height: 50,
-        width: 50,
-    },
-    icon: {
         height: 20,
         width: 20,
         marginRight: 10
+    },
+    icon: {
+        height: 50,
+        width: 50,
+        
     },
     inputStyle: {
         marginHorizontal:10,

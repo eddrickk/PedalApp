@@ -2,12 +2,14 @@ import React, { useContext, useState, useEffect } from 'react'
 import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, FlatList, ScrollView, Image, Alert } from 'react-native'
 import { SafeAreaView } from 'react-navigation'
 import { Context as FriendContext } from '../../context/FriendContext'
+import AccountContext from '../../context/AccountContext'
 import Header from '../../components/Header'
 import { Feather } from '@expo/vector-icons'
 import { FontAwesome } from '@expo/vector-icons'
 
 const SearchFriendScreen = ({navigation}) => {
     const {data, deleteFriend} = useContext(FriendContext)
+    const {account, addAccount} = useContext(AccountContext)
     const[name, setName] = useState('')
     const[results, setResult] = useState([])
 

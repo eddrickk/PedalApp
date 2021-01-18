@@ -3,14 +3,19 @@ import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, FlatList, 
 import { SafeAreaView } from 'react-navigation'
 import { Ionicons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
-import { Context as CyclingContext } from '../../context/CyclingwithFriendContext'
+import CyclingwithFriendContext from '../../context/CyclingwithFriendContext'
+import AccountContext from '../../context/AccountContext'
+import { Context as UserContext } from '../../context/UserContext'
 import Header from '../../components/Header'
 import * as Font from 'expo-font'
 import AppLoading from 'expo-app-loading'
 
 const FreeCyclingStartScreen = ({navigation}) => {
-    const {data, addPlayer} = useContext(CyclingContext)
-    const [roomID, setRoomID] = useState(data.length + 1)
+    const {cycling, funct} = useContext(CyclingwithFriendContext)
+    const [roomID, setRoomID] = useState(cycling.length + 1)
+    const {data} = useContext(UserContext)
+    const {account} = useContext(AccountContext)
+    const [accountData, setAccountData] = useState(account[account.length-1])
     const [state, setState] = useState(false)
     const [hours, setHours] = useState('00')
     const [minutes, setMinutes] = useState('00')
@@ -18,6 +23,7 @@ const FreeCyclingStartScreen = ({navigation}) => {
     const [distance, setDistance] = useState('0')
     const [avg, setAvg] = useState('0')
     const win = Dimensions.get('window')
+    var d = new Date();
    /*  useEffect(async () => {
         let isLoaded = await Font.loadAsync({
             DoHyeon: require('../../assets/fonts/DoHyeon-Regular.ttf')
@@ -25,13 +31,19 @@ const FreeCyclingStartScreen = ({navigation}) => {
     },[]
     )
        */  
-      console.log(data)
+
+    const filterDataByUsername = (usernameChosen) => {
+        return data.filter(data => {
+            return data.username.toLowerCase() === usernameChosen.toLowerCase()
+        })
+    }
+
     useEffect(()=>{
-        addPlayer(roomID, 5, 'https://www.iconsdb.com/icons/preview/color/FF8E15/contacts-xxl.png', 'user', 0, 0, 0)
+        funct.addPlayer(roomID, filterDataByUsername(accountData.username)[0].id, filterDataByUsername(accountData.username)[0].image, filterDataByUsername(accountData.username)[0].name, 0, 0, 0)
     }, [])
 
     const filterDataByID = (roomIDChosen) => {
-        return data.filter(data => {
+        return cycling.filter(data => {
             return data.room_id === roomIDChosen
         })
     }
@@ -59,7 +71,7 @@ const FreeCyclingStartScreen = ({navigation}) => {
             keyboardShouldPersistTaps="handled"
             >
                 <View style={styles.detail}>
-                    <TouchableOpacity onPress={() => {navigation.navigate('CyclingWithFriendsStart', {room_id: roomID})}}>
+                    <TouchableOpacity onPress={() => {navigation.navigate('CyclingWithFriendsStart', {room_id: roomID, hours_start: d.getHours(), minutes_start: d.getMinutes()})}}>
                         <Text style={styles.buttonStart}>Start Cycling</Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => {navigation.navigate('CyclingWithFriendsStart')}}>

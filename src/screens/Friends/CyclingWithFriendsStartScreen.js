@@ -4,29 +4,53 @@ import { SafeAreaView } from 'react-navigation'
 import { Ionicons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
 import Header from '../../components/Header'
-import { Context as CyclingContext } from '../../context/CyclingwithFriendContext'
+import CyclingwithFriendContext from '../../context/CyclingwithFriendContext'
+import AccountContext from '../../context/AccountContext'
+import { Context as UserContext } from '../../context/UserContext'
+import CyclingHistoryContext from '../../context/CyclingHistoryContext'
 import * as Font from 'expo-font'
 import AppLoading from 'expo-app-loading'
 
 const CyclingWithFriendsStartScreen = ({navigation}) => {
     const room_id = navigation.getParam('room_id')
-    const {data, addPlayer, editPlayer} = useContext(CyclingContext)
+    const hours_start = navigation.getParam('hours_start')
+    const minutes_start = navigation.getParam('minutes_start')
+    const {cycling, funct} = useContext(CyclingwithFriendContext)
+    const {data} = useContext(UserContext)
+    const {account} = useContext(AccountContext)
+    const [accountData, setAccountData] = useState(account[account.length-1])
+    const {history, fun} = useContext(CyclingHistoryContext)
     const [hours, setHours] = useState(1)
     const [minutes, setMinutes] = useState(30)
     const [seconds, setSeconds] = useState(25)
     const [distance, setDistance] = useState(5401)
     const [avg, setAvg] = useState((distance/(hours*3600 + minutes*60 + seconds)).toFixed(2))
     const win = Dimensions.get('window')
+    var d = new Date();
+    var weekday = new Array(7);
+    weekday[0] = "Sunday";
+    weekday[1] = "Monday";
+    weekday[2] = "Tuesday";
+    weekday[3] = "Wednesday";
+    weekday[4] = "Thursday";
+    weekday[5] = "Friday";
+    weekday[6] = "Saturday";
    /*  useEffect(async () => {
         let isLoaded = await Font.loadAsync({
             DoHyeon: require('../../assets/fonts/DoHyeon-Regular.ttf')
         })
     },[]
     )
-       */  
-    const filterDataByID = () => {
+       */ 
+
+    const filterDataByUsername = (usernameChosen) => {
         return data.filter(data => {
-            return data.id !== 5 && data.room_id === room_id
+            return data.username.toLowerCase() === usernameChosen.toLowerCase()
+        })
+    }
+    const filterDataByID = () => {
+        return cycling.filter(data => {
+            return data.id !== filterDataByUsername(accountData.username)[0].id && data.room_id === room_id
         })
     }
     
@@ -52,7 +76,12 @@ const CyclingWithFriendsStartScreen = ({navigation}) => {
                 keyboardShouldPersistTaps="handled"
                 >
                 <View style={styles.detail}>
-                    <TouchableOpacity onPress={() => {editPlayer(room_id, 5, 'user', (hours*3600 + minutes*60 + seconds), distance, distance/(hours*3600 + minutes*60 + seconds)), navigation.navigate('CyclingWithFriendsStop', {room_id: room_id})}}>
+                    <TouchableOpacity onPress={() => {
+                        funct.editPlayer(room_id, filterDataByUsername(accountData.username)[0].id, filterDataByUsername(accountData.username)[0].image, 
+                        filterDataByUsername(accountData.username)[0].name, (hours*3600 + minutes*60 + seconds), distance, distance/(hours*3600 + minutes*60 + seconds)), 
+                        fun.addHistory(history.length+1, filterDataByUsername(accountData.username)[0].id, 'Cycling With Friends', (hours*3600 + minutes*60 + seconds), distance, 
+                        distance/(hours*3600 + minutes*60 + seconds), weekday[d.getDay()], d.getDate(), d.getMonth()+1, d.getFullYear(), hours_start, d.getHours(), minutes_start, d.getMinutes()),
+                        navigation.navigate('CyclingWithFriendsStop', {room_id: room_id})}}>
                         <Text style={styles.buttonStop}>Stop Cycling</Text>
                     </TouchableOpacity>
                     
