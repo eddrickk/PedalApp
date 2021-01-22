@@ -16,7 +16,7 @@ const CyclingWithFriendsStartScreen = ({navigation}) => {
     const hours_start = navigation.getParam('hours_start')
     const minutes_start = navigation.getParam('minutes_start')
     const {cycling, funct} = useContext(CyclingwithFriendContext)
-    const {data} = useContext(UserContext)
+    const {data, editUser} = useContext(UserContext)
     const {account} = useContext(AccountContext)
     const [accountData, setAccountData] = useState(account[account.length-1])
     const {history, fun} = useContext(CyclingHistoryContext)
@@ -79,6 +79,12 @@ const CyclingWithFriendsStartScreen = ({navigation}) => {
                     <TouchableOpacity onPress={() => {
                         funct.editPlayer(room_id, filterDataByUsername(accountData.username)[0].id, filterDataByUsername(accountData.username)[0].image, 
                         filterDataByUsername(accountData.username)[0].name, (hours*3600 + minutes*60 + seconds), distance, distance/(hours*3600 + minutes*60 + seconds)), 
+                        editUser(filterDataByUsername(accountData.username)[0].id, filterDataByUsername(accountData.username)[0].image, filterDataByUsername(accountData.username)[0].name, 
+                        filterDataByUsername(accountData.username)[0].username, filterDataByUsername(accountData.username)[0].email, filterDataByUsername(accountData.username)[0].password, 
+                        filterDataByUsername(accountData.username)[0].phone, filterDataByUsername(accountData.username)[0].time_spent + (hours*3600 + minutes*60 + seconds), 
+                        filterDataByUsername(accountData.username)[0].distance_travelled + distance, filterDataByUsername(accountData.username)[0].average_speed + distance/(hours*3600 + minutes*60 + seconds),
+                        filterDataByUsername(accountData.username)[0].battle_wins, filterDataByUsername(accountData.username)[0].battle_draws, filterDataByUsername(accountData.username)[0].battle_loses, 
+                        filterDataByUsername(accountData.username)[0].friends_number),
                         fun.addHistory(history.length+1, filterDataByUsername(accountData.username)[0].id, 'Cycling With Friends', (hours*3600 + minutes*60 + seconds), distance, 
                         distance/(hours*3600 + minutes*60 + seconds), weekday[d.getDay()], d.getDate(), d.getMonth()+1, d.getFullYear(), hours_start, d.getHours(), minutes_start, d.getMinutes()),
                         navigation.navigate('CyclingWithFriendsStop', {room_id: room_id})}}>

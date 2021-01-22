@@ -5,10 +5,12 @@ import { createStackNavigator, HeaderTitle } from 'react-navigation-stack'
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs'
 import SigninScreen from './src/screens/SigninScreen'
 import SignupScreen from './src/screens/SignupScreen'
+
 import SearchScreen from './src/screens/Home/SearchScreen'
 import FreeCyclingScreen from './src/screens/Home/FreeCyclingScreen'
 import FreeCyclingStartScreen from './src/screens/Home/FreeCyclingStartScreen'
 import FreeCyclingStopScreen from './src/screens/Home/FreeCyclingStopScreen'
+
 import SearchFriendScreen from './src/screens/Friends/SearchFriendScreen'
 import FriendProfileScreen from './src/screens/Friends/FriendProfileScreen'
 import FriendAddScreen from './src/screens/Friends/FriendAddScreen'
@@ -17,17 +19,35 @@ import CyclingWithFriendsScreen from './src/screens/Friends/CyclingWithFriendsSc
 import CyclingWithFriendsStartScreen from './src/screens/Friends/CyclingWithFriendsStartScreen'
 import CyclingWithFriendsStopScreen from './src/screens/Friends/CyclingWithFriendsStopScreen'
 import InviteFriendScreen from './src/screens/Friends/InviteFriendScreen'
+
 import AccountScreen from './src/screens/Account/AccountScreen'
 import EditAccountScreen from './src/screens/Account/EditAccountScreen'
 import CyclingHistoryScreen from './src/screens/Account/CyclingHistoryScreen'
 import ShowCyclingHistoryScreen from './src/screens/Account/ShowCyclingHistoryScreen'
+
 import CommunityScreen from './src/screens/Community/CommunityScreen'
+import CommunityCreateScreen from './src/screens/Community/CommunityCreateScreen'
+import CommunityJoinScreen from './src/screens/Community/CommunityJoinScreen'
+import CommunityShowScreen from './src/screens/Community/CommunityShowScreen'
+import PostNewScreen from './src/screens/Community/PostNewScreen'
+
 import CyclingBattleScreen from './src/screens/Battle/CyclingBattleScreen'
+import BattleCreateScreen from './src/screens/Battle/BattleCreateScreen'
+import BattleJoinScreen from './src/screens/Battle/BattleJoinScreen'
+import BattleLobbyScreen from './src/screens/Battle/BattleLobbyScreen'
+import BattleMapScreen from './src/screens/Battle/BattleMapScreen'
+import BattleStartScreen from './src/screens/Battle/BattleStartScreen'
+import BattleStopScreen from './src/screens/Battle/BattleStopScreen'
+
 import { Provider as FriendProvider } from './src/context/FriendContext'
 import { Provider as UserProvider } from './src/context/UserContext'
 import AccountContext, { AccountProvider } from './src/context/AccountContext'
 import { CyclingwithFriendProvider as CyclingProvider } from './src/context/CyclingwithFriendContext'
+import { CyclingBattleProvider } from './src/context/CyclingBattleContext'
 import { CyclingHistoryProvider } from './src/context/CyclingHistoryContext'
+import { CommunityProvider } from './src/context/CommunityContext'
+import { CommunityMemberProvider } from './src/context/CommunityMemberContext'
+import { PostProvider } from './src/context/PostContext'
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs'
 import { SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context'
 
@@ -163,7 +183,31 @@ const switchNavigator = createSwitchNavigator({
           navigationOptions: {
             headerShown: false
           }
-        }
+        },
+        CommunityCreate: {
+          screen: CommunityCreateScreen,
+          navigationOptions: {
+            headerShown: false
+          }
+        },
+        CommunityJoin: {
+          screen: CommunityJoinScreen,
+          navigationOptions: {
+            headerShown: false
+          }
+        },
+        CommunityShow: {
+          screen: CommunityShowScreen,
+          navigationOptions: {
+            headerShown: false
+          }
+        },
+        PostNew: {
+          screen: PostNewScreen,
+          navigationOptions: {
+            headerShown: false
+          }
+        },
       },{
         initialRouteName: 'Community'
       }
@@ -174,7 +218,43 @@ const switchNavigator = createSwitchNavigator({
           navigationOptions: {
             headerShown: false
           }
-        }
+        },
+        BattleCreate: {
+          screen: BattleCreateScreen,
+          navigationOptions: {
+            headerShown: false
+          }
+        },
+        BattleJoin: {
+          screen: BattleJoinScreen,
+          navigationOptions: {
+            headerShown: false
+          }
+        },
+        BattleLobby: {
+          screen: BattleLobbyScreen,
+          navigationOptions: {
+            headerShown: false
+          }
+        },
+        BattleMap: {
+          screen: BattleMapScreen,
+          navigationOptions: {
+            headerShown: false
+          }
+        },
+        BattleStart: {
+          screen: BattleStartScreen,
+          navigationOptions: {
+            headerShown: false
+          }
+        },
+        BattleStop: {
+          screen: BattleStopScreen,
+          navigationOptions: {
+            headerShown: false
+          }
+        },
       },{
         initialRouteName: 'CyclingBattle'
       }
@@ -274,18 +354,25 @@ const App = createAppContainer(switchNavigator)
 
 export default () => {
   return (
-    <CyclingHistoryProvider>
-      <AccountProvider>   
-        <CyclingProvider>
-          <UserProvider>
-            <FriendProvider>
-              <App />
-            </FriendProvider>
-          </UserProvider>
-        </CyclingProvider>
-      </AccountProvider>
-    </CyclingHistoryProvider>
+    <PostProvider>
+      <CommunityMemberProvider>
+        <CommunityProvider>
+          <CyclingBattleProvider> 
+            <CyclingHistoryProvider>
+              <AccountProvider>   
+                <CyclingProvider>
+                  <UserProvider>
+                    <FriendProvider>
+                      <App />
+                    </FriendProvider>
+                  </UserProvider>
+                </CyclingProvider>
+              </AccountProvider>
+            </CyclingHistoryProvider>
+          </CyclingBattleProvider>
+        </CommunityProvider>
+      </CommunityMemberProvider>
+    </PostProvider>
     
   )
-  
 }

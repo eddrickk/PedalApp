@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, FlatList, ScrollView, Image } from 'react-native'
+import { Text, View, StyleSheet, TextInput, Button, TouchableOpacity, FlatList, ScrollView, Image, Alert } from 'react-native'
 import { SafeAreaView } from 'react-navigation'
 import Header from '../../components/Header'
 import AccountContext from '../../context/AccountContext'
@@ -11,7 +11,7 @@ import { LinearGradient } from 'expo-linear-gradient'
 import {Dimensions} from 'react-native'
 const win = Dimensions.get('window');
 
-const CommunityScreen = ({navigation}) => {
+const CommunityJoinScreen = ({navigation}) => {
     const [name, setName] = useState('')
     const {data, editUser} = useContext(UserContext)
     const {account} = useContext(AccountContext)
@@ -19,21 +19,12 @@ const CommunityScreen = ({navigation}) => {
     const {community, comFunc} = useContext(CommunityContext)
     const {member, memFunc} = useContext(CommunityMemberContext)
     const [results, setResult] = useState([])
-     console.log(community)
-     console.log(member)
+    // console.log(community)
+    // console.log(member)
 
-    const filterCommunityByID = (idChosen) => {
-        return community.filter(data => {
-            return data.id === idChosen
-        })
-    }
-    const filterCommunityMemberByID = () => {
-        return member.filter(data => {
-            return data.user_id === filterDataByUsername(accountData.username)[0].id
-        })
-    }
+    
     const filterCommunityByName = (nameChosen) => {
-        return filterCommunityMemberByID().filter(data => {
+        return community.filter(data => {
             return data.name.toLowerCase().includes(nameChosen.toLowerCase())
         })
     }
@@ -42,14 +33,37 @@ const CommunityScreen = ({navigation}) => {
             return data.username.toLowerCase() === usernameChosen.toLowerCase()
         })
     }
+    const alertButtonConfirm = (id, image, name) => {
+        Alert.alert(
+            'Confirmation',
+            'Join Community ?',
+            [
+            {text: 'Yes', onPress: () => initJoinCommunity(id, image, name)},
+            {text: 'No', onPress: () => navigation.navigate('CommunityJoin'), style: 'cancel'}
+            ]
+        );
+    }
+    const alertButton = () => {
+        Alert.alert(
+            'Information',
+            'Joined Community',
+            [
+            {text: 'OK', onPress: () => navigation.navigate('Community')},
+            ]
+        );
+    }
+    const initJoinCommunity = (id, image, name) => {
+        memFunc.addMember(id, image, name, filterDataByUsername(accountData.username)[0].id, 'member')
+        alertButton()
+    }
 
     useEffect(()=>{
-        setResult(filterCommunityMemberByID())
-    }, [member])
+        setResult(community)
+    }, [community])
     return (
         <SafeAreaView forceInset={{top:'always'}} style={styles.container}>
             <View style={{backgroundColor: '#FBF199'}}>
-                <Header title='Community' />
+                <Header title='Join Community' />
                 <View style={{flexDirection: 'row'}}>
                     <TouchableOpacity style={{
                         flex: 1,
@@ -58,7 +72,7 @@ const CommunityScreen = ({navigation}) => {
                     </TouchableOpacity>
                     <TouchableOpacity style={{
                         flex: 1,
-                    }} onPress={() => {navigation.navigate('CommunityJoin')}}>
+                    }} onPress={() => {navigation.navigate('JoinCommunity')}}>
                         <Text style={styles.buttonJoinCommunity}>Join Community</Text>
                     </TouchableOpacity>
                 </View>
@@ -75,7 +89,7 @@ const CommunityScreen = ({navigation}) => {
                     onEndEditing={() => {setResult(filterCommunityByName(name))}}
                 />
                 <TouchableOpacity onPress={() => {setResult(filterCommunityByName(name))}}>
-                    <Image style={styles.icon} source={require('../../../assets/Search.png')} />
+                    <Image style={styles.iconSearch} source={require('../../../assets/Search.png')} />
                 </TouchableOpacity>
             </View>
             </View>
@@ -90,22 +104,23 @@ const CommunityScreen = ({navigation}) => {
                     keyExtractor={friend => friend.id}
                     renderItem={({item}) => {
                         return (
-                            <TouchableOpacity onPress={() => navigation.navigate('CommunityShow', {id: item.community_id})}>
+                            // <TouchableOpacity onPress={() => navigation.navigate('FriendProfile', {id: item.id})}>
                                 <View style={styles.communityList}>
                                     <View style={{flex: 1, flexDirection: 'row'}}>
                                         {/* <Image style={styles.communityPic} source={{uri: filterCommunityByID(item.community_id)[0].image}} />
                                         <Text style={{flex: 3, alignSelf: 'center', fontSize: 18, fontWeight: 'bold'}}>{filterCommunityByID(item.community_id)[0].name}</Text> */}
                                         <Image style={styles.communityPic} source={{uri: item.image}} />
                                         <Text style={{flex: 3, alignSelf: 'center', fontSize: 18, fontWeight: 'bold'}}>{item.name}</Text>
+                                        <TouchableOpacity style={{justifyContent: 'center'}} onPress={() => alertButtonConfirm(item.id, item.image, item.name)}>
+                                            <Text style={styles.button}>Join</Text>
+                                        </TouchableOpacity>
                                     </View>
                                 </View>
-                            </TouchableOpacity>
+                            // </TouchableOpacity>
                         )
                     }}
                 />
-                <TouchableOpacity onPress={() => navigation.navigate('CommunityCreate')}>
-                    <Text style={styles.button}>Create Community</Text>
-                </TouchableOpacity>
+                
             </ScrollView>
             
         </SafeAreaView>
@@ -125,11 +140,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
+    
     scrollView: {
         backgroundColor:'#F3EFE4',
         height: win.height
     },
-    icon: {
+    iconSearch: {
         height: 20,
         width: 20,
         marginRight: 10
@@ -145,13 +161,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
     },
-    buttonCommunity: {
+    buttonJoinCommunity: {
         color: '#086788',
         backgroundColor: '#FFD8AD',
         fontWeight: 'bold',
         fontSize: 16,
         height: 40,
-        borderBottomLeftRadius: 12,
+        borderBottomRightRadius: 12,
         textAlignVertical: 'center',
         textAlign: 'center',
         shadowOffset: {
@@ -162,12 +178,12 @@ const styles = StyleSheet.create({
         shadowRadius: 2,
         elevation: 5
     },
-    buttonJoinCommunity: {
+    buttonCommunity: {
         color: '#F3EFE4',
         backgroundColor: '#FF8E15',
         fontSize: 16,
         height: 40,
-        borderBottomRightRadius: 12,
+        borderBottomLeftRadius: 12,
         textAlignVertical: 'center',
         textAlign: 'center',
         shadowOffset: {
@@ -193,11 +209,11 @@ const styles = StyleSheet.create({
     },
     button: {
         color: '#FDF9B7',
-        backgroundColor: '#084B83',
+        backgroundColor: '#FF8E15',
         fontWeight: 'bold',
         fontSize: 16,
-        height: 45,
-        width: 150,
+        height: 30,
+        width: 80,
         borderRadius: 12,
         alignSelf: 'center',
         textAlignVertical: 'center',
@@ -214,4 +230,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default CommunityScreen
+export default CommunityJoinScreen

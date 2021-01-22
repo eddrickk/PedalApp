@@ -7,13 +7,13 @@ import AccountContext from '../../context/AccountContext'
 import { Context as UserContext } from '../../context/UserContext'
 import CyclingHistoryContext from '../../context/CyclingHistoryContext'
 import Header from '../../components/Header'
-import * as Font from 'expo-font'
-import AppLoading from 'expo-app-loading'
+// import * as Font from 'expo-font'
+// import AppLoading from 'expo-app-loading'
 
 const FreeCyclingStartScreen = ({navigation}) => {
     const hours_start = navigation.getParam('hours_start')
     const minutes_start = navigation.getParam('minutes_start')
-    const {data} = useContext(UserContext)
+    const {data, editUser} = useContext(UserContext)
     const {account} = useContext(AccountContext)
     const [accountData, setAccountData] = useState(account[account.length-1])
     const {history, fun} = useContext(CyclingHistoryContext)
@@ -71,6 +71,12 @@ const FreeCyclingStartScreen = ({navigation}) => {
                 <View style={styles.detail}>
                     <TouchableOpacity onPress={() => {fun.addHistory(history.length+1, filterDataByUsername(accountData.username)[0].id, 'Free Cycling', (hours*3600 + minutes*60 + seconds), distance, 
                         distance/(hours*3600 + minutes*60 + seconds), weekday[d.getDay()], d.getDate(), d.getMonth()+1, d.getFullYear(), hours_start, d.getHours(), minutes_start, d.getMinutes()), 
+                        editUser(filterDataByUsername(accountData.username)[0].id, filterDataByUsername(accountData.username)[0].image, filterDataByUsername(accountData.username)[0].name, 
+                        filterDataByUsername(accountData.username)[0].username, filterDataByUsername(accountData.username)[0].email, filterDataByUsername(accountData.username)[0].password, 
+                        filterDataByUsername(accountData.username)[0].phone, filterDataByUsername(accountData.username)[0].time_spent + (hours*3600 + minutes*60 + seconds), 
+                        filterDataByUsername(accountData.username)[0].distance_travelled + distance, filterDataByUsername(accountData.username)[0].average_speed + distance/(hours*3600 + minutes*60 + seconds),
+                        filterDataByUsername(accountData.username)[0].battle_wins, filterDataByUsername(accountData.username)[0].battle_draws, filterDataByUsername(accountData.username)[0].battle_loses, 
+                        filterDataByUsername(accountData.username)[0].friends_number),
                         navigation.navigate('FreeCyclingStop', {time_spent: (hours*3600 + minutes*60 + seconds), distance_travelled: distance, average_speed: distance/(hours*3600 + minutes*60 + seconds)})}}>
                         <Text style={styles.buttonStop}>Stop Cycling</Text>
                     </TouchableOpacity>

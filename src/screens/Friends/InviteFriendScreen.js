@@ -32,7 +32,7 @@ const InviteFriendScreen = ({navigation}) => {
                     <TouchableOpacity onPress={()=>{navigation.navigate('CyclingWithFriends')}}>
                         <Ionicons name="chevron-back" size={24} color="#F3EFE4" />
                     </TouchableOpacity>
-                    <Text style={styles.headerText}>Add Friends</Text>
+                    <Text style={styles.headerText}>Invite Friends</Text>
                     <Image style={styles.icon} source={require('../../../assets/icon.png')} />
                 </View>
                 
@@ -71,7 +71,7 @@ const InviteFriendScreen = ({navigation}) => {
                     keyExtractor={friend => friend.id}
                     renderItem={({item}) => {
                         return (
-                            <TouchableOpacity onPress={() => navigation.navigate('FriendProfile', {id: item.id})}>
+                            //<TouchableOpacity onPress={() => navigation.navigate('FriendProfile', {id: item.id})}>
                                 <View style={styles.friendList}>
                                     <View style={{flex: 1, flexDirection: 'row'}}>
                                         <Image style={styles.profilePic} source={{uri: item.image}} />
@@ -81,15 +81,15 @@ const InviteFriendScreen = ({navigation}) => {
                                         <Image style={styles.profilePic} source={require('../../../assets/Add_User.png')} />
                                     </TouchableOpacity>
                                 </View>
-                            </TouchableOpacity>
+                            //</TouchableOpacity>
                         )
                     }}
                 />
             </ScrollView>
             
-            <TouchableOpacity onPress={() => navigation.navigate('FriendAdd')}>
+            {/* <TouchableOpacity onPress={() => navigation.navigate('FriendAdd')}>
                 <Text style={styles.buttonAdd}>Add</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
         </SafeAreaView>
     )
 }

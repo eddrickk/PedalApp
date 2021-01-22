@@ -79,5 +79,9 @@ export const { Context, Provider } = createDataContext(
     {id: 4, image: 'https://www.iconsdb.com/icons/preview/blue/contacts-xxl.png', name: 'Sera', username: 'seramyname', email: 'sera@xxx.com', password: '3423d008asddsad',
         phone: '+6285**********', time_spent: 0, distance_travelled: 0, average_speed: 0, battle_wins: 0, battle_draws: 0, battle_loses: 0, friends_number: 0},
     {id: 5, image: 'https://www.iconsdb.com/icons/preview/blue/contacts-xxl.png', name: 'Test', username: 'test', email: 'test@xxx.com', password: '123',
-        phone: '1234567890', time_spent: 0, distance_travelled: 0, average_speed: 0, battle_wins: 0, battle_draws: 0, battle_loses: 0, friends_number: 0}]
+        phone: '1234567890', time_spent: 0, distance_travelled: 0, average_speed: 0, battle_wins: 0, battle_draws: 0, battle_loses: 0, friends_number: 0},
+    {id: 6, image: 'https://www.iconsdb.com/icons/preview/blue/contacts-xxl.png', name: 'Tony', username: 'tonymyname', email: 'tony@xxx.com', password: 'sdfsdfsefeoubw34',
+        phone: '+6281**********', time_spent: 0, distance_travelled: 0, average_speed: 0, battle_wins: 0, battle_draws: 0, battle_loses: 0, friends_number: 0},
+    {id: 7, image: 'https://www.iconsdb.com/icons/preview/blue/contacts-xxl.png', name: 'Lisa', username: 'lisamyname', email: 'lisa@xxx.com', password: '32w4ifhw0s8dfh0sao',
+        phone: '+6285**********', time_spent: 0, distance_travelled: 0, average_speed: 0, battle_wins: 0, battle_draws: 0, battle_loses: 0, friends_number: 0}]
 )
