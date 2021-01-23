@@ -29,12 +29,7 @@ const SearchScreen = ({navigation}) => {
                         <Text style={styles.buttonFreeCycling}>FreeCycling</Text>
                     </TouchableOpacity>
                 </View>
-                <ScrollView
-                style={styles.scrollView}
-                showsVerticalScrollIndicator={false}
-                keyboardShouldPersistTaps="handled"
-                >
-                    <TextInput 
+                <TextInput 
                         style={styles.inputStyle}
                         autoCapitalize="none"
                         autoCorrect={false}
@@ -42,6 +37,11 @@ const SearchScreen = ({navigation}) => {
                         value={name}
                         onChangeText={(newName) => {setName(newName)}}
                     />
+                <ScrollView
+                style={styles.scrollView}
+                showsVerticalScrollIndicator={false}
+                keyboardShouldPersistTaps="handled"
+                >
                     <Image style={{width: win.width, height: ratio}} source={require('../../../assets/FreeCyclingMap.png')} />
                 </ScrollView>
             </View>

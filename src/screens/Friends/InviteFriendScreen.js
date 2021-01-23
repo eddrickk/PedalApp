@@ -11,10 +11,35 @@ import { FontAwesome } from '@expo/vector-icons'
 const InviteFriendScreen = ({navigation}) => {
     const room_id = navigation.getParam('room_id')
     const {data} = useContext(FriendContext)
-    const {funct} = useContext(CyclingwithFriendContext)
+    const {cycling, funct} = useContext(CyclingwithFriendContext)
     const[name, setName] = useState('')
     const[results, setResult] = useState([])
 
+    const cantinviteButton = () => {
+        Alert.alert(
+            'Information',
+            'You have invited this friend',
+            [
+            {text: 'OK', onPress: () => navigation.navigate('InviteFriend')},
+            ]
+        );
+    }
+    const checkFriend = (idChosen) => {
+        for (let f of cycling){
+            if (f.room_id === room_id && f.id === idChosen){
+                return false
+            }
+        }
+        return true
+    }
+    const checkBeforeInvite = (room_id, id, image, name) => {
+        if (checkFriend(id)){
+            funct.addPlayer(room_id, id, image, name, 0, 0, 0, () => {navigation.navigate('CyclingWithFriends')})
+        }
+        else{
+            cantinviteButton()
+        }
+    }
     const filterDataByName = (nameChosen) => {
         return data.filter(data => {
             return data.name.toLowerCase().includes(nameChosen.toLowerCase())
@@ -77,7 +102,7 @@ const InviteFriendScreen = ({navigation}) => {
                                         <Image style={styles.profilePic} source={{uri: item.image}} />
                                         <Text style={{flex: 3, alignSelf: 'center', fontSize: 18, fontWeight: 'bold'}}>{item.name}</Text>
                                     </View>
-                                    <TouchableOpacity style={{alignSelf: 'center', marginHorizontal: 20}} onPress={() => funct.addPlayer(room_id, item.id, item.image, item.name, 0, 0, 0, () => {navigation.navigate('CyclingWithFriends')})}>
+                                    <TouchableOpacity style={{alignSelf: 'center', marginHorizontal: 20}} onPress={() => checkBeforeInvite(room_id, item.id, item.image, item.name)}>
                                         <Image style={styles.profilePic} source={require('../../../assets/Add_User.png')} />
                                     </TouchableOpacity>
                                 </View>

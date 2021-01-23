@@ -6,7 +6,7 @@ const CommunityMemberContext = React.createContext()
 const reducer = (state, action) => {
     switch (action.type) {
         case 'add':
-            return [...state, {community_id: action.payload.community_id, image: action.payload.image, name: action.payload.name, user_id: action.payload.user_id, position: action.payload.position}]
+            return [...state, {community_id: action.payload.community_id, community_image: action.payload.community_image, community_name: action.payload.community_name, image: action.payload.image, name: action.payload.name, user_id: action.payload.user_id, position: action.payload.position}]
         case 'delete':
             /* return (
                 state.filter((account) => {account.username !== action.payload.username})
@@ -24,14 +24,14 @@ const reducer = (state, action) => {
 }
 
 export const CommunityMemberProvider = ({children}) => {
-    const [member, dispatch] = useReducer(reducer, [{community_id: 1, image: 'https://www.iconsdb.com/icons/preview/color/FF8E15/conference-xxl.png', name: 'Wind Breakers',
-     user_id: 1, position: 'leader'}, {community_id: 1, image: 'https://www.iconsdb.com/icons/preview/color/FF8E15/conference-xxl.png', name: 'Wind Breakers', user_id: 2, position: 'member'}, 
-     {community_id: 1, image: 'https://www.iconsdb.com/icons/preview/color/FF8E15/conference-xxl.png', name: 'Wind Breakers', user_id: 5, position: 'member'},
-    {community_id: 2, image: 'https://www.iconsdb.com/icons/preview/color/FF8E15/conference-xxl.png', name: 'Sentinels', user_id: 3, position: 'leader'}, {community_id: 2,
-    image: 'https://www.iconsdb.com/icons/preview/color/FF8E15/conference-xxl.png', name: 'Sentinels', user_id: 4, position: 'member'}])
+    const [member, dispatch] = useReducer(reducer, [{community_id: 1, community_image: 'https://www.iconsdb.com/icons/preview/color/FF8E15/conference-xxl.png', community_name: 'Wind Breakers', image: 'https://www.iconsdb.com/icons/preview/blue/contacts-xxl.png', name: 'Alex',
+     user_id: 1, position: 'leader'}, {community_id: 1, community_image: 'https://www.iconsdb.com/icons/preview/color/FF8E15/conference-xxl.png', community_name: 'Wind Breakers', image: 'https://www.iconsdb.com/icons/preview/blue/contacts-xxl.png', name: 'Tom', user_id: 2, position: 'member'}, 
+     {community_id: 1, community_image: 'https://www.iconsdb.com/icons/preview/color/FF8E15/conference-xxl.png', community_name: 'Wind Breakers', image: 'https://www.iconsdb.com/icons/preview/blue/contacts-xxl.png', name: 'Test', user_id: 5, position: 'member'},
+    {community_id: 2, community_image: 'https://www.iconsdb.com/icons/preview/color/FF8E15/conference-xxl.png', community_name: 'Sentinels', image: 'https://www.iconsdb.com/icons/preview/blue/contacts-xxl.png', name: 'Luffy', user_id: 3, position: 'leader'}, {community_id: 2, community_image: 'https://www.iconsdb.com/icons/preview/color/FF8E15/conference-xxl.png',
+    community_name: 'Sentinels', image: 'https://www.iconsdb.com/icons/preview/blue/contacts-xxl.png', name: 'Sera', user_id: 4, position: 'member'}])
 
-    const addMember = (community_id, image, name, user_id, position) => {
-        dispatch({type: 'add', payload: {community_id: community_id, image: image, name: name, user_id: user_id, position: position}})
+    const addMember = (community_id, community_image, community_name, image, name, user_id, position) => {
+        dispatch({type: 'add', payload: {community_id: community_id, community_image: community_image, community_name: community_name, image: image, name: name, user_id: user_id, position: position}})
     }
     
     const deleteMembert = () => {

@@ -20,7 +20,7 @@ const FriendAddScreen = ({navigation}) => {
         const {data} = useContext(FriendContext)
         setDataFriend(data)
     } */
-    
+    const friends = navigation.getParam('friends')
     const {data} = useContext(UserContext)
     const {addFriend} = useContext(FriendContext)
     const[name, setName] = useState('')
@@ -31,17 +31,41 @@ const FriendAddScreen = ({navigation}) => {
             'Information',
             'Friend Added',
             [
+            {text: 'OK', onPress: () => navigation.navigate('SearchFriend')},
+            ]
+        );
+    }
+    const cantAddButton = () => {
+        Alert.alert(
+            'Information',
+            'You have added this friend',
+            [
             {text: 'OK', onPress: () => navigation.navigate('FriendAdd')},
             ]
         );
     }
-    
     const filterDataByName = (nameChosen) => {
         return data.filter(data => {
             return data.name.toLowerCase().includes(nameChosen.toLowerCase())
         })
     }
-
+    const checkFriend = (idChosen) => {
+        for (let friend of friends){
+            if (friend.id === idChosen){
+                return false
+            }
+        }
+        return true
+    }
+    const initAddFriend = (id, image, name) => {
+        if (checkFriend(id)){
+            addFriend(id, image, name),
+            alertButton()
+        }
+        else{
+            cantAddButton()
+        }
+    }
     
     /* useEffect(()=>{
         getUserData(),
@@ -85,7 +109,7 @@ const FriendAddScreen = ({navigation}) => {
                                         <Image style={styles.profilePic} source={{uri: item.image}} />
                                         <Text style={{flex: 3, alignSelf: 'center', fontSize: 18, fontWeight: 'bold'}}>{item.name}</Text>
                                     </View>
-                                    <TouchableOpacity onPress={() => {addFriend(item.id, item.image, item.name), alertButton()}}>
+                                    <TouchableOpacity onPress={() => {initAddFriend(item.id, item.image, item.name)}}>
                                         <Image style={styles.profilePic} source={require('../../../assets/Add_User.png')} />
                                     </TouchableOpacity>
                                 </View>

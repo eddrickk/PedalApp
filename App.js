@@ -28,6 +28,7 @@ import ShowCyclingHistoryScreen from './src/screens/Account/ShowCyclingHistorySc
 import CommunityScreen from './src/screens/Community/CommunityScreen'
 import CommunityCreateScreen from './src/screens/Community/CommunityCreateScreen'
 import CommunityJoinScreen from './src/screens/Community/CommunityJoinScreen'
+import CommunityDetailScreen from './src/screens/Community/CommunityDetailScreen'
 import CommunityShowScreen from './src/screens/Community/CommunityShowScreen'
 import PostNewScreen from './src/screens/Community/PostNewScreen'
 
@@ -192,6 +193,12 @@ const switchNavigator = createSwitchNavigator({
         },
         CommunityJoin: {
           screen: CommunityJoinScreen,
+          navigationOptions: {
+            headerShown: false
+          }
+        },
+        CommunityDetail: {
+          screen: CommunityDetailScreen,
           navigationOptions: {
             headerShown: false
           }

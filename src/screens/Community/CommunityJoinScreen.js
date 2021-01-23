@@ -33,6 +33,14 @@ const CommunityJoinScreen = ({navigation}) => {
             return data.username.toLowerCase() === usernameChosen.toLowerCase()
         })
     }
+    const checkCommunity = (idChosen) => {
+        for (let com of member){
+            if (com.community_id === idChosen && com.user_id === filterDataByUsername(accountData.username)[0].id){
+                return false
+            }
+        }
+        return true
+    }
     const alertButtonConfirm = (id, image, name) => {
         Alert.alert(
             'Confirmation',
@@ -52,9 +60,26 @@ const CommunityJoinScreen = ({navigation}) => {
             ]
         );
     }
+    const cantjoinButton = () => {
+        Alert.alert(
+            'Information',
+            'You have joined this community',
+            [
+            {text: 'OK', onPress: () => navigation.navigate('CommunityJoin')},
+            ]
+        );
+    }
     const initJoinCommunity = (id, image, name) => {
-        memFunc.addMember(id, image, name, filterDataByUsername(accountData.username)[0].id, 'member')
+        memFunc.addMember(id, image, name, filterDataByUsername(accountData.username)[0].image, filterDataByUsername(accountData.username)[0].name, filterDataByUsername(accountData.username)[0].id, 'member')
         alertButton()
+    }
+    const checkBeforeJoin = (id, image, name) => {
+        if (checkCommunity(id)){
+            alertButtonConfirm(id, image, name)
+        }
+        else{
+            cantjoinButton()
+        }
     }
 
     useEffect(()=>{
@@ -104,19 +129,19 @@ const CommunityJoinScreen = ({navigation}) => {
                     keyExtractor={friend => friend.id}
                     renderItem={({item}) => {
                         return (
-                            // <TouchableOpacity onPress={() => navigation.navigate('FriendProfile', {id: item.id})}>
+                            <TouchableOpacity onPress={() => navigation.navigate('CommunityDetail', {id: item.id})}>
                                 <View style={styles.communityList}>
                                     <View style={{flex: 1, flexDirection: 'row'}}>
                                         {/* <Image style={styles.communityPic} source={{uri: filterCommunityByID(item.community_id)[0].image}} />
                                         <Text style={{flex: 3, alignSelf: 'center', fontSize: 18, fontWeight: 'bold'}}>{filterCommunityByID(item.community_id)[0].name}</Text> */}
                                         <Image style={styles.communityPic} source={{uri: item.image}} />
                                         <Text style={{flex: 3, alignSelf: 'center', fontSize: 18, fontWeight: 'bold'}}>{item.name}</Text>
-                                        <TouchableOpacity style={{justifyContent: 'center'}} onPress={() => alertButtonConfirm(item.id, item.image, item.name)}>
+                                        <TouchableOpacity style={{justifyContent: 'center'}} onPress={() => checkBeforeJoin(item.id, item.image, item.name)}>
                                             <Text style={styles.button}>Join</Text>
                                         </TouchableOpacity>
                                     </View>
                                 </View>
-                            // </TouchableOpacity>
+                            </TouchableOpacity>
                         )
                     }}
                 />

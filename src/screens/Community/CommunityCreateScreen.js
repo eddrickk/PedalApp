@@ -50,7 +50,7 @@ const CommunityCreateScreen = ({navigation}) => {
     }
     const initCreateCommunity = () => {
         comFunc.addCommunity(community.length+1, 'https://www.iconsdb.com/icons/preview/color/FF8E15/conference-xxl.png', name, desc, memberTotal, selectedValue, community.length+1, community.length+1, community.length+1),
-        memFunc.addMember(community.length+1, 'https://www.iconsdb.com/icons/preview/color/FF8E15/conference-xxl.png', name, filterDataByUsername(accountData.username)[0].id, 'leader')
+        memFunc.addMember(community.length+1, 'https://www.iconsdb.com/icons/preview/color/FF8E15/conference-xxl.png', name, filterDataByUsername(accountData.username)[0].image, filterDataByUsername(accountData.username)[0].name, filterDataByUsername(accountData.username)[0].id, 'leader')
         alertButton()
     }
     const maxMember = () => {

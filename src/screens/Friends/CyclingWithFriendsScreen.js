@@ -91,7 +91,7 @@ const FreeCyclingStartScreen = ({navigation}) => {
                             )
                         }}
                     />
-                    <TouchableOpacity onPress={() => {navigation.navigate('InviteFriend', {room_id: roomID})}}>
+                    <TouchableOpacity onPress={() => {navigation.navigate('InviteFriend', {room_id: roomID, data: cycling})}}>
                         <Image style={styles.profilePic} source={require('../../../assets/Add_User.png')} />
                     </TouchableOpacity>
                 </View>

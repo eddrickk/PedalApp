@@ -90,10 +90,10 @@ const SearchFriendScreen = ({navigation}) => {
                 />
             </ScrollView>
             <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
-                <TouchableOpacity onPress={() => navigation.navigate('FriendAdd')}>
+                <TouchableOpacity onPress={() => navigation.navigate('FriendAdd', {friends: data})}>
                     <Text style={styles.buttonAdd}>Add</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('FriendNearby')}>
+                <TouchableOpacity onPress={() => navigation.navigate('FriendNearby', {friends: data})}>
                     <Text style={styles.buttonAdd}>Nearby</Text>
                 </TouchableOpacity>
             </View>

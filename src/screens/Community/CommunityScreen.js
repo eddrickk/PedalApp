@@ -34,7 +34,7 @@ const CommunityScreen = ({navigation}) => {
     }
     const filterCommunityByName = (nameChosen) => {
         return filterCommunityMemberByID().filter(data => {
-            return data.name.toLowerCase().includes(nameChosen.toLowerCase())
+            return data.community_name.toLowerCase().includes(nameChosen.toLowerCase())
         })
     }
     const filterDataByUsername = (usernameChosen) => {
@@ -95,8 +95,8 @@ const CommunityScreen = ({navigation}) => {
                                     <View style={{flex: 1, flexDirection: 'row'}}>
                                         {/* <Image style={styles.communityPic} source={{uri: filterCommunityByID(item.community_id)[0].image}} />
                                         <Text style={{flex: 3, alignSelf: 'center', fontSize: 18, fontWeight: 'bold'}}>{filterCommunityByID(item.community_id)[0].name}</Text> */}
-                                        <Image style={styles.communityPic} source={{uri: item.image}} />
-                                        <Text style={{flex: 3, alignSelf: 'center', fontSize: 18, fontWeight: 'bold'}}>{item.name}</Text>
+                                        <Image style={styles.communityPic} source={{uri: item.community_image}} />
+                                        <Text style={{flex: 3, alignSelf: 'center', fontSize: 18, fontWeight: 'bold'}}>{item.community_name}</Text>
                                     </View>
                                 </View>
                             </TouchableOpacity>
